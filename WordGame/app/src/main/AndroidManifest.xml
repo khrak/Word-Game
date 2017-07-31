@@ -11,7 +11,7 @@
         android:roundIcon="@drawable/app_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"
+        <activity android:name=".Activities.WelcomeActivity"
             android:screenOrientation="locked">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,6 +20,11 @@
             </intent-filter>
 
         </activity>
+
+        <activity android:name=".Activities.AboutActivity"/>
+        <activity android:name=".Activities.WelcomeSinglePlayer"/>
+        <activity android:name=".Activities.WelcomeMultiplayer"/>
+
     </application>
 
 </manifest>

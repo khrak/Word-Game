@@ -36,10 +36,9 @@
                 android:layout_marginTop="36dp"
                 android:background="@drawable/button"
                 android:elevation="20dp"
-                android:text="@string/single_player"
+                android:text="EASY"
                 android:textColor="#C0FFFFFF"
-                android:textStyle="bold"
-                android:onClick="singlePlayerClicked"/>
+                android:textStyle="bold"/>
 
             <Button
                 android:id="@+id/about"
@@ -51,10 +50,9 @@
                 android:layout_marginTop="7dp"
                 android:background="@drawable/button"
                 android:elevation="20dp"
-                android:text="@string/multi_player"
+                android:text="MEDIUM"
                 android:textColor="#C0FFFFFF"
-                android:textStyle="bold"
-                android:onClick="multiplayerClicked"/>
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/instr"
@@ -65,10 +63,9 @@
                 android:layout_marginTop="7dp"
                 android:background="@drawable/button"
                 android:elevation="20dp"
-                android:text="@string/about_caps"
+                android:text="HARD"
                 android:textColor="#C0FFFFFF"
-                android:textStyle="bold"
-                android:onClick="aboutClicked"/>
+                android:textStyle="bold"/>
 
         </RelativeLayout>
     </RelativeLayout>

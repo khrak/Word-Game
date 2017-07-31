@@ -3,5 +3,5 @@
 
     <string name="single_player">SINGLE PLAYER</string>
     <string name="multi_player">MULTIPLAYER</string>
-    <string name="instructions_caps">INSTRUCTIONS</string>
+    <string name="about_caps">ABOUT</string>
 </resources>

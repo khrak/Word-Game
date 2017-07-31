@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Word Game</string>
+
+    <string name="single_player">SINGLE PLAYER</string>
+    <string name="multi_player">MULTIPLAYER</string>
+    <string name="instructions_caps">INSTRUCTIONS</string>
 </resources>

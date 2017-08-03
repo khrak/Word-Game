@@ -44,6 +44,8 @@ public class LobbyActivity extends AppCompatActivity implements
 
     private GoogleApiClient mGoogleApiClient;
 
+    private RadioButton privateButton;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +72,9 @@ public class LobbyActivity extends AppCompatActivity implements
                 final EditText editText = (EditText) dialog.findViewById(R.id.editText);
                 Button btnSave          = (Button) dialog.findViewById(R.id.save);
                 Button btnCancel        = (Button) dialog.findViewById(R.id.cancel);
+
+                final RadioButton privateButton = (RadioButton) dialog.findViewById(R.id.radio_private);
+
                 dialog.show();
 
                 btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -85,16 +90,13 @@ public class LobbyActivity extends AppCompatActivity implements
 
                         String roomName = editText.getText().toString();
 
-                        RadioButton privateButton = (RadioButton) findViewById(R.id.radio_private);
-                        RadioButton publicButton = (RadioButton) findViewById(R.id.radio_public);
-
-                        boolean privateRoom = false;
+                        String privacy = "public";
 
                         if (privateButton.isChecked()) {
-                            privateRoom = true;
+                            privacy = "private";
                         }
 
-                        addRoom(roomName, privateRoom);
+                        addRoom(roomName, privacy);
 
                         dialog.dismiss();
                     }
@@ -136,8 +138,45 @@ public class LobbyActivity extends AppCompatActivity implements
         });
     }
 
-    private void addRoom(String roomName, boolean privateRoom) {
-        
+    private void addRoom(String roomName, String privacy) {
+        String url ="http://amimelia-001-site1.itempurl.com/api/Gamelobby/CreateRoom?userName="
+                + getIntent().getStringExtra("username") + "&roomName="
+                + roomName + "&roomAccessibility=" + privacy;
+
+        final com.android.volley.RequestQueue queue = Volley.newRequestQueue(this);
+
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(final String response) {
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+
+                            String id = "" + jsonObject.getInt("roomId");
+
+                            Intent intent = new Intent(LobbyActivity.this, RoomActivity.class);
+
+                            intent.putExtra("roomId", id);
+                            intent.putExtra("userid", getIntent().getStringExtra("username"));
+
+                            startActivity(intent);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println("That didn't work!");
+            }
+        });
+
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest);
     }
 
     private boolean signedWithGoogle() {

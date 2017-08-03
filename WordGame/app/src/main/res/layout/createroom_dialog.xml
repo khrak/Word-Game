@@ -7,6 +7,7 @@
     android:background="@color/colorPrimary">
 
     <EditText
+        android:padding="10dp"
         android:id="@+id/editText"
         android:hint="Enter room name"
         android:textColorHint="#F5D183"

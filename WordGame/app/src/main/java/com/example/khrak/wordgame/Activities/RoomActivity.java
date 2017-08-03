@@ -14,5 +14,10 @@ public class RoomActivity extends AppCompatActivity {
         setContentView(R.layout.room_activity);
 
         getSupportActionBar().hide();
+
+        String roomid = getIntent().getStringExtra("roomid");
+        String username = getIntent().getStringExtra("username");
+
+        System.out.println(roomid + " " + username);
     }
 }

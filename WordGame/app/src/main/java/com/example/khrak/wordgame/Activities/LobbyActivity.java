@@ -290,6 +290,9 @@ public class LobbyActivity extends AppCompatActivity implements
 
         Intent intent = new Intent(this, RoomActivity.class);
 
+        intent.putExtra("roomid", room.getId());
+        intent.putExtra("username", username);
+
         startActivity(intent);
     }
 }

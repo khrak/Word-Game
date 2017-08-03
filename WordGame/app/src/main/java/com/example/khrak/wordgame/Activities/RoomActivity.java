@@ -71,7 +71,7 @@ public class RoomActivity extends AppCompatActivity {
 
         String url ="http://amimelia-001-site1.itempurl.com/api/gamelobby/GetRoom?userName=" +
                 username + "&roomId=" + roomId;
-
+        System.out.println(url);
         final com.android.volley.RequestQueue queue = Volley.newRequestQueue(this);
 
         // Request a string response from the provided URL.

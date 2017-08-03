@@ -137,7 +137,7 @@ public class CommunicationManager {
 
 
     public String getSignalPath() {
-        return "http://192.168.0.106:64146/signalr";
+        return "http://amimelia-001-site1.itempurl.com/signalr";
     }
 
     public String getServerHub() {

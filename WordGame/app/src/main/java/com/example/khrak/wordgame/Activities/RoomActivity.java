@@ -1,5 +1,6 @@
 package com.example.khrak.wordgame.Activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -35,21 +36,42 @@ public class RoomActivity extends AppCompatActivity {
         roomId = Integer.valueOf(getIntent().getStringExtra("roomid"));
         String username = getIntent().getStringExtra("username");
         Button leaveBtn = (Button) findViewById(R.id.leave_room_btn);
+
+
+        final Activity thisActivity = this;
         leaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                leaveRoom();
+                thisActivity.finish();
+                //leaveRoom();
             }
         });
 
         drawRoom(roomId, username);
     }
 
+
+    @Override
+    public void onBackPressed() {
+        this.finish();
+    }
+
+    @Override
+    public void onDestroy() {
+        try {
+            leaveRoom();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        super.onDestroy();
+    }
+
+
     private void drawRoom(int roomId, String username) {
 
         String url ="http://amimelia-001-site1.itempurl.com/api/gamelobby/GetRoom?userName=" +
                 username + "&roomId=" + roomId;
-
+        System.out.println(url);
         final com.android.volley.RequestQueue queue = Volley.newRequestQueue(this);
 
         // Request a string response from the provided URL.

@@ -1,16 +1,24 @@
 package com.example.khrak.wordgame.communication.models;
 
+import com.example.khrak.wordgame.communication.models.events.*;
+
 /**
  * Created by melia on 8/2/2017.
  */
 
 public class GameEventFactory {
     public static final String EVENT_KET_TEST = "game.event.test";
+    public static final String EVENT_KET_UPDATE_ROOM = "game.event.room.changed";
+    public static final String EVENT_KET_INVITATION_RECEVED = "game.event.invitation.receved";
 
     public static GameEvent getGameEvent(EventResponse responce){
         switch (responce.eventKey){
             case EVENT_KET_TEST:
                 return new TestGameEvent(responce);
+            case EVENT_KET_UPDATE_ROOM:
+                return new UpdateRoomEvent(responce);
+            case EVENT_KET_INVITATION_RECEVED:
+                return new InvitationReceivedEvent(responce);
             default:
                 return null;
         }

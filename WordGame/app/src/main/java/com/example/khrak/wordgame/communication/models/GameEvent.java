@@ -19,4 +19,8 @@ public class GameEvent<T> {
         return eventData;
     }
 
+    public boolean IsSameEvent(String eventKey){
+        return this.eventKey.equals(eventKey);
+    }
+
 }

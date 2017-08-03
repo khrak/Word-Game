@@ -14,6 +14,7 @@ import com.example.khrak.wordgame.communication.models.GameEvent;
 import com.example.khrak.wordgame.communication.models.GameEventFactory;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,8 +26,8 @@ public class CommunicationManager {
     private String mUserName;
     private SignalRService mService;
     private boolean mBound = false;
-    private List<IGameEventsListener> mGameEventsListeners;
-    private IGameEventsListener mInviteNotificaitonsListener;
+    private List<IGameEventsListener> mGameEventsListeners = new ArrayList<>();
+    private IGameEventsListener mInviteNotificaitonsListener = null;
 
 
     public CommunicationManager(){

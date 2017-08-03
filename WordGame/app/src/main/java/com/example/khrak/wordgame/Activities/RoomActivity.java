@@ -44,6 +44,11 @@ public class RoomActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        this.finish();
+    }
+
+    @Override
     public void onDestroy() {
         try {
             leaveRoom();

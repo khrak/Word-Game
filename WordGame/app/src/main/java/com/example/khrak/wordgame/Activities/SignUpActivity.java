@@ -234,6 +234,7 @@ public class SignUpActivity extends AppCompatActivity implements
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
         } else {
+            System.out.println(data.toString());
             callbackManager.onActivityResult(requestCode, resultCode, data);
         }
     }

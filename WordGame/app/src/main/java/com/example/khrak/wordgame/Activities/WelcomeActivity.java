@@ -27,7 +27,7 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     public void singlePlayerClicked(View view) {
-        Intent intent = new Intent(this, WelcomeSinglePlayer.class);
+        Intent intent = new Intent(this, TestActivity.class);
 
         startActivity(intent);
     }

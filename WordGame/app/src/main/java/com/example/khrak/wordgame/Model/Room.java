@@ -6,17 +6,23 @@ package com.example.khrak.wordgame.Model;
 
 public class Room {
     private String name;
+    private String id;
     private String privacy;
     private int numPlayers;
 
-    public Room(String name, String privacy, int numPlayers) {
+    public Room(String name, String id, String privacy, int numPlayers) {
         this.name = name;
+        this.id = id;
         this.privacy = privacy;
         this.numPlayers = numPlayers;
     }
 
     public String getName() {
         return name;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getPrivacy() {

@@ -11,11 +11,18 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.khrak.wordgame.Adapters.LobbyAdapter;
 import com.example.khrak.wordgame.Model.Room;
 import com.example.khrak.wordgame.R;
+import com.example.khrak.wordgame.communication.CommunicationManager;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -24,16 +31,17 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
-import java.util.ArrayList;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import static android.provider.ContactsContract.CommonDataKinds.Website.URL;
+import java.util.ArrayList;
 
 
 public class LobbyActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener,
         View.OnClickListener {
 
-    private static final int PLUS_ONE_REQUEST_CODE = 0;
     private GoogleApiClient mGoogleApiClient;
 
     @Override
@@ -43,47 +51,21 @@ public class LobbyActivity extends AppCompatActivity implements
 
         getSupportActionBar().hide();
 
-        ListView listView = (ListView) findViewById(R.id.rooms_list);
+        final String username = getIntent().getStringExtra("username");
 
-        ArrayList<Room> rooms = new ArrayList<>();
-
-        rooms.add(new Room("Black", "Public", 3));
-        rooms.add(new Room("White", "Public", 2));
-        rooms.add(new Room("Jack", "Public", 1));
-        rooms.add(new Room("Sparrow", "Public", 4));
-        rooms.add(new Room("Gym", "Public", 4));
-        rooms.add(new Room("Contestants", "Public", 5));
-        rooms.add(new Room("Bulls", "Public", 3));
-        rooms.add(new Room("Poker", "Public", 2));
-        rooms.add(new Room("Face", "Public", 1));
-        rooms.add(new Room("Sooo", "Public", 5));
-
-        LobbyAdapter adapter = new LobbyAdapter(rooms, this);
-
-        listView.setAdapter(adapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-
-                TextView textView = (TextView) view.findViewById(R.id.room_name);
-
-                System.out.println(textView.getText().toString());
-            }
-        });
-
+        drawRooms(username);
 
         final FloatingActionButton createRoom = (FloatingActionButton) findViewById(R.id.createroom_button);
 
         createRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 final Dialog dialog = new Dialog(LobbyActivity.this);
 
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-                dialog.setContentView(R.layout.test_activity);
+                dialog.setContentView(R.layout.createroom_dialog);
 
                 final EditText editText = (EditText) dialog.findViewById(R.id.editText);
                 Button btnSave          = (Button) dialog.findViewById(R.id.save);
@@ -93,6 +75,27 @@ public class LobbyActivity extends AppCompatActivity implements
                 btnCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                btnSave.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        String roomName = editText.getText().toString();
+
+                        RadioButton privateButton = (RadioButton) findViewById(R.id.radio_private);
+                        RadioButton publicButton = (RadioButton) findViewById(R.id.radio_public);
+
+                        boolean privateRoom = false;
+
+                        if (privateButton.isChecked()) {
+                            privateRoom = true;
+                        }
+
+                        addRoom(roomName, privateRoom);
+
                         dialog.dismiss();
                     }
                 });
@@ -119,9 +122,9 @@ public class LobbyActivity extends AppCompatActivity implements
                         googleSignOut();
                     }
 
-                    if (SignUpActivity.signedWithFacebook()) {
-                        SignUpActivity.facebookSignOut();
-                    }
+//                    if (SignUpActivity.signedWithFacebook()) {
+//                        SignUpActivity.facebookSignOut();
+//                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -131,6 +134,10 @@ public class LobbyActivity extends AppCompatActivity implements
                 startActivity(intent);
             }
         });
+    }
+
+    private void addRoom(String roomName, boolean privateRoom) {
+        
     }
 
     private boolean signedWithGoogle() {
@@ -155,5 +162,95 @@ public class LobbyActivity extends AppCompatActivity implements
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+    }
+
+    public void drawRooms(final String username) {
+
+        final com.android.volley.RequestQueue queue = Volley.newRequestQueue(this);
+
+        String keyPath = "http://amimelia-001-site1.itempurl.com/api/Gamelobby/GetAvaliableRooms?userName=" + username;
+
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, keyPath,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(final String response) {
+                        try {
+                            JSONArray jsonarray = new JSONArray(response);
+
+                            ArrayList<Room> rooms = new ArrayList<>();
+
+                            for (int i = 0; i < jsonarray.length(); i++) {
+                                JSONObject json = jsonarray.getJSONObject(i);
+
+                                Room room = new Room(json.getString("RoomName"),
+                                                        "" + json.getInt("RoomId"),
+                                                            json.getString("Accessibility"),
+                                                                json.getInt("MembersCount"));
+
+                                rooms.add(room);
+                            }
+
+                            ListView listView = (ListView) findViewById(R.id.rooms_list);
+
+                            final LobbyAdapter adapter = new LobbyAdapter(rooms, LobbyActivity.this);
+
+                            listView.setAdapter(adapter);
+
+                            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                                    Room room = (Room) adapter.getItem(position);
+
+                                    joinRoom(room, username);
+                                }
+                            });
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println("That didn't work!");
+            }
+        });
+
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest);
+    }
+
+    private void joinRoom(Room room, String username) {
+        final com.android.volley.RequestQueue queue = Volley.newRequestQueue(this);
+
+        String keyPath = "http://amimelia-001-site1.itempurl.com/api/gamelobby/JoinRoom?userName="
+                + username + "&roomId=" + room.getId();
+
+        System.out.println(keyPath);
+
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, keyPath,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(final String response) {
+
+                        System.out.println("Joined");
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println("That didn't work!");
+            }
+        });
+
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest);
+
+        Intent intent = new Intent(this, RoomActivity.class);
+
+        startActivity(intent);
     }
 }

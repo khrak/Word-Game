@@ -1,49 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:padding="5dp"
-    android:background="@color/colorPrimary">
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
 
-    <EditText
-        android:id="@+id/editText"
-        android:hint="Enter room name"
-        android:textSize="20dp"
-        android:layout_marginBottom="5dp"
-        android:background="@color/white"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <requestFocus />
-    </EditText>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
+    <RadioButton android:id="@+id/radio_pirates"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp">
+        android:text="pirates"
+        android:onClick="onRadioButtonClicked"/>
 
-        <Button
-            android:id="@+id/save"
-            android:layout_marginTop="15dp"
-            android:layout_weight="1"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button"
-            android:textColor="#C0FFFFFF"
-            android:text="CREATE" />
-
-        <Button
-            android:id="@+id/cancel"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="15dp"
-            android:layout_weight="1"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button"
-            android:textColor="#C0FFFFFF"
-            android:text="Cancel" />
-
-    </LinearLayout>
-</LinearLayout>
+    <RadioButton android:id="@+id/radio_ninjas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ninjas"
+        android:onClick="onRadioButtonClicked"/>
+</RadioGroup>

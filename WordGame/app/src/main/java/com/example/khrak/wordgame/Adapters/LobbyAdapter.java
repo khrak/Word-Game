@@ -52,12 +52,14 @@ public class LobbyAdapter extends BaseAdapter {
             TextView roomName = (TextView) rootView.findViewById(R.id.room_name);
             TextView numPlayers = (TextView) rootView.findViewById(R.id.num_players);
             TextView privacy = (TextView) rootView.findViewById(R.id.privacy_tag);
+            TextView id = (TextView) rootView.findViewById(R.id.room_id);
 
             viewHolder = new ViewHolder();
 
             viewHolder.name = roomName;
             viewHolder.numPlayers = numPlayers;
             viewHolder.privacy = privacy;
+            viewHolder.id = id;
 
             rootView.setTag(viewHolder);
         }else{
@@ -70,11 +72,12 @@ public class LobbyAdapter extends BaseAdapter {
         viewHolder.name.setText(room.getName());
         viewHolder.privacy.setText(room.getPrivacy());
         viewHolder.numPlayers.setText("" + room.getNumPlayers());
+        viewHolder.id.setText(room.getId());
 
         return rootView;
     }
 
     private class ViewHolder {
-        private TextView name, numPlayers, privacy;
+        private TextView name, numPlayers, privacy, id;
     }
 }

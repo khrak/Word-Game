@@ -33,4 +33,16 @@
         android:text="public"
         android:textSize="17sp"/>
 
+
+    <TextView
+        android:id="@+id/room_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:textColor="#C0FFFFFF"
+        android:text="public"
+        android:visibility="gone"
+        android:textSize="17sp"/>
+
+
 </RelativeLayout>

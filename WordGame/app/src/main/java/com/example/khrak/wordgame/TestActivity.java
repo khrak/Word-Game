@@ -1,12 +1,20 @@
 package com.example.khrak.wordgame;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.os.Bundle;
@@ -19,40 +27,44 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class TestActivity extends Activity {
+
+    private CallbackManager callbackManager;
+    private LoginButton loginButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.test_activity);
 
-        final AlertDialog.Builder dialog = new AlertDialog.Builder(this).setTitle("User name already exists").setMessage("Choose another one");
-        dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int whichButton) {
+        loginButton = (LoginButton) findViewById(R.id.login_button);
 
+        callbackManager = CallbackManager.Factory.create();
+
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                loginResult.getAccessToken().getUserId();
+            }
+
+            @Override
+            public void onCancel() {
+                System.out.println("Canceled");
+            }
+
+            @Override
+            public void onError(FacebookException e) {
+                e.printStackTrace();
+                System.out.println("Error");
             }
         });
 
-        final AlertDialog alert = dialog.create();
-        alert.show();
+    }
 
-        // Hide after some seconds
-        final Handler handler  = new Handler();
-        final Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                if (alert.isShowing()) {
-                    alert.dismiss();
-                }
-            }
-        };
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-        alert.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                handler.removeCallbacks(runnable);
-            }
-        });
-
-        handler.postDelayed(runnable, 3000);
+            System.out.println(data.toString());
+            callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 }

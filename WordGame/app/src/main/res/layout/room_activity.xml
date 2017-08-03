@@ -1,23 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
     android:orientation="vertical"
     android:paddingTop="@dimen/start_screen_top_margin">
 
-    <ImageView
+    <TextView
         android:id="@+id/title"
-        android:layout_width="240dp"
-        android:layout_height="240dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
+        android:text="Room1"
+        android:textStyle="bold"
+        android:textSize="30sp"
+        android:textColor="#C0FFFFFF"
         android:foregroundGravity="center_vertical"
+        android:layout_centerHorizontal="true"/>
+
+    <RelativeLayout
+        android:id="@+id/owner_layout"
+        android:layout_below="@id/title"
+        android:layout_marginLeft="9dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/logo"/>
+        android:padding="5dp"
+        android:orientation="vertical">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/owner_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/avatar_icon5"
+            android:layout_centerHorizontal="true"
+            app:civ_border_width="1dp"
+            app:civ_border_color="#FF000000"/>
+
+        <TextView
+            android:layout_marginTop="8dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/owner_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Owner"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            android:textColor="#C0FFFFFF"/>
+
+    </RelativeLayout>
 
     <LinearLayout
-        android:layout_below="@id/title"
+        android:id="@+id/profile_list"
+        android:layout_below="@id/owner_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="20dp"
@@ -26,7 +65,7 @@
         android:background="@drawable/button">
 
         <LinearLayout
-            android:layout_marginLeft="9dp"
+            android:layout_marginLeft="3dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -41,23 +80,25 @@
                 <ImageView
                     android:id="@+id/profile_image1"
                     android:layout_centerHorizontal="true"
-                    android:layout_width="60dp"
-                    android:layout_height="80dp"
-                    android:src="@drawable/avatar_icon1"/>
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
+                    android:src="@drawable/avatar_defaultmark"/>
 
                 <TextView
                     android:layout_marginTop="3dp"
+                    android:layout_centerHorizontal="true"
                     android:layout_below="@id/profile_image1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Mamuka"
+                    android:textStyle="bold"
                     android:textColor="#C0FFFFFF"/>
 
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_weight="1"
-                android:layout_marginLeft="9dp"
+                android:layout_marginLeft="4dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button"
@@ -66,23 +107,25 @@
                 <ImageView
                     android:id="@+id/profile_image2"
                     android:layout_centerHorizontal="true"
-                    android:layout_width="60dp"
-                    android:layout_height="80dp"
-                    android:src="@drawable/avatar_icon2"/>
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
+                    android:src="@drawable/avatar_defaultmark"/>
 
                 <TextView
                     android:layout_marginTop="3dp"
+                    android:layout_centerHorizontal="true"
                     android:layout_below="@id/profile_image2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Mamuka"
+                    android:textStyle="bold"
                     android:textColor="#C0FFFFFF"/>
 
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_weight="1"
-                android:layout_marginLeft="9dp"
+                android:layout_marginLeft="4dp"
                 android:background="@drawable/button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -91,23 +134,25 @@
                 <ImageView
                     android:id="@+id/profile_image3"
                     android:layout_centerHorizontal="true"
-                    android:layout_width="60dp"
-                    android:layout_height="80dp"
-                    android:src="@drawable/avatar_icon3"/>
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
+                    android:src="@drawable/avatar_defaultmark"/>
 
                 <TextView
                     android:layout_marginTop="3dp"
+                    android:layout_centerHorizontal="true"
                     android:layout_below="@id/profile_image3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Mamuka"
+                    android:textStyle="bold"
                     android:textColor="#C0FFFFFF"/>
 
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_weight="1"
-                android:layout_marginLeft="9dp"
+                android:layout_marginLeft="4dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button"
@@ -116,23 +161,25 @@
                 <ImageView
                     android:id="@+id/profile_image4"
                     android:layout_centerHorizontal="true"
-                    android:layout_width="60dp"
-                    android:layout_height="80dp"
-                    android:src="@drawable/avatar_icon4"/>
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
+                    android:src="@drawable/avatar_defaultmark"/>
 
                 <TextView
                     android:layout_marginTop="3dp"
+                    android:layout_centerHorizontal="true"
                     android:layout_below="@id/profile_image4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Mamuka"
+                    android:textStyle="bold"
                     android:textColor="#C0FFFFFF"/>
 
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_weight="1"
-                android:layout_marginLeft="9dp"
+                android:layout_marginLeft="4dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button"
@@ -141,15 +188,17 @@
                 <ImageView
                     android:id="@+id/profile_image5"
                     android:layout_centerHorizontal="true"
-                    android:layout_width="60dp"
-                    android:layout_height="80dp"
-                    android:src="@drawable/avatar_icon5"/>
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
+                    android:src="@drawable/avatar_defaultmark"/>
 
                 <TextView
                     android:layout_marginTop="3dp"
+                    android:layout_centerHorizontal="true"
                     android:layout_below="@id/profile_image5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textStyle="bold"
                     android:text="Mamuka"
                     android:textColor="#C0FFFFFF"/>
 
@@ -158,5 +207,56 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <RelativeLayout
+        android:layout_below="@id/profile_list"
+        android:layout_marginTop="30dp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/about"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="7dp"
+                android:layout_marginTop="7dp"
+                android:elevation="20dp"
+                android:text="WAITING TO START"
+                android:textColor="#DCA32B"
+                android:textStyle="bold"/>
+
+            <Button
+                android:id="@+id/instr"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/about"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="7dp"
+                android:background="@drawable/button"
+                android:elevation="20dp"
+                android:text="LEAVE"
+                android:textColor="#C0FFFFFF"
+                android:textStyle="bold"/>
+    </RelativeLayout>
+
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:id="@+id/multiple_actions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        fab:fab_addButtonColorNormal="@color/white"
+        fab:fab_addButtonColorPressed="@color/white_pressed"
+        fab:fab_addButtonPlusIconColor="@color/half_black"
+        fab:fab_labelStyle="@style/menu_labels_style"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp">
+
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
 
 </RelativeLayout>

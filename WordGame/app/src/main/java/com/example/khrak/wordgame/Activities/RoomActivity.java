@@ -17,12 +17,15 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.khrak.wordgame.R;
 import com.example.khrak.wordgame.communication.CommunicationManager;
+import com.example.khrak.wordgame.communication.IGameEventsListener;
+import com.example.khrak.wordgame.communication.models.GameEvent;
+import com.example.khrak.wordgame.communication.models.GameEventFactory;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class RoomActivity extends AppCompatActivity {
+public class RoomActivity extends AppCompatActivity implements IGameEventsListener {
     private int roomId;
 
     @Override
@@ -48,6 +51,7 @@ public class RoomActivity extends AppCompatActivity {
         });
 
         drawRoom(roomId, username);
+        attachGameEventListener();
     }
 
 
@@ -214,8 +218,17 @@ public class RoomActivity extends AppCompatActivity {
         }
     }
 
+    private void attachGameEventListener(){
+        CommunicationManager.getInstance().addGameEventListener(this);
+    }
+
+    private void dispachGameEventsListener(){
+        CommunicationManager.getInstance().removeGameEventListener(this);
+    }
+
     public void leaveRoom() {
 
+        dispachGameEventsListener();
         String url ="http://amimelia-001-site1.itempurl.com/api/Gamelobby/LeaveRoom?userName="
                 + CommunicationManager.getInstance().getUserName();
 
@@ -243,5 +256,12 @@ public class RoomActivity extends AppCompatActivity {
 
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
+    }
+
+    @Override
+    public void processGameEvent(GameEvent event) {
+        if (event.IsSameEvent(GameEventFactory.EVENT_KET_UPDATE_ROOM)){
+            drawRoom(roomId, CommunicationManager.getInstance().getUserName());
+        }
     }
 }

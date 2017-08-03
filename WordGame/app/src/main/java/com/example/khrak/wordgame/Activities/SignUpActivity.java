@@ -16,6 +16,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.khrak.wordgame.R;
+import com.example.khrak.wordgame.communication.CommunicationManager;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -133,6 +134,8 @@ public class SignUpActivity extends AppCompatActivity implements
 
         String keyPath = "http://amimelia-001-site1.itempurl.com/api/user/GetUser?userUid=" + userid;
 
+        System.out.println(keyPath);
+
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, keyPath,
                 new Response.Listener<String>() {
@@ -150,11 +153,11 @@ public class SignUpActivity extends AppCompatActivity implements
                                     startActivity(intent);
 
                                 } else {
-                                    Intent intent = new Intent(context, LobbyActivity.class);
 
-                                    intent.putExtra("username", json.getString("username"));
+                                    System.out.println("user name is " + json.getString("username"));
 
-                                    startActivity(intent);
+                                    goToLobby(json.getString("username"));
+
                                 }
 
                                 if (json.get("username").equals("user.already.exists")) {
@@ -169,11 +172,7 @@ public class SignUpActivity extends AppCompatActivity implements
                                                         JSONObject json = new JSONObject(response);
 
                                                         if (json.has("username")) {
-                                                            Intent intent = new Intent(context, LobbyActivity.class);
-
-                                                            intent.putExtra("username", json.getString("username"));
-
-                                                            startActivity(intent);
+                                                            goToLobby(json.getString("username"));
                                                         }
                                                     } catch (JSONException e) {
                                                         e.printStackTrace();
@@ -205,6 +204,16 @@ public class SignUpActivity extends AppCompatActivity implements
         queue.add(stringRequest);
     }
 
+    private void goToLobby(String username) {
+
+        CommunicationManager.Initialize(username);
+
+        Intent intent = new Intent(context, LobbyActivity.class);
+
+        intent.putExtra("username", username);
+
+        startActivity(intent);
+    }
     @Override
     public void onStart() {
         super.onStart();

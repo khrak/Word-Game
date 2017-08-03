@@ -1,7 +1,10 @@
 package com.example.khrak.wordgame.Activities;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.ButtonBarLayout;
@@ -92,9 +95,9 @@ public class ChooseUsernameActivity extends AppCompatActivity {
             public void onClick(View v) {
                 EditText editText = (EditText) findViewById(R.id.edit_text);
 
-                editText.setText("");
-
                 registerNewUser(editText.getText().toString(), userid);
+
+                editText.setText("");
             }
         });
     }
@@ -118,6 +121,42 @@ public class ChooseUsernameActivity extends AppCompatActivity {
 
                         try {
                             JSONObject json = new JSONObject(response);
+
+                            if (json.has("username") && json.get("username").equals("user.already.exists")) {
+                                final AlertDialog.Builder dialog = new AlertDialog.Builder(ChooseUsernameActivity.this).
+                                        setTitle("User name already exists").
+                                        setMessage("Choose another one");
+
+                                dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                                    }
+                                });
+
+                                final AlertDialog alert = dialog.create();
+                                alert.show();
+
+                                // Hide after some seconds
+                                final Handler handler  = new Handler();
+                                final Runnable runnable = new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        if (alert.isShowing()) {
+                                            alert.dismiss();
+                                        }
+                                    }
+                                };
+
+                                alert.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                                    @Override
+                                    public void onDismiss(DialogInterface dialog) {
+                                        handler.removeCallbacks(runnable);
+                                    }
+                                });
+
+                                handler.postDelayed(runnable, 3000);
+                            }
 
                             if (json.has("messageId") && json.getInt("messageId") == 1) {
                                 Intent intent = new Intent(context, LobbyActivity.class);

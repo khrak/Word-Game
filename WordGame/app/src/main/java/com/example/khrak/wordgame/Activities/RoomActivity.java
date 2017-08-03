@@ -1,5 +1,6 @@
 package com.example.khrak.wordgame.Activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -31,12 +32,26 @@ public class RoomActivity extends AppCompatActivity {
         roomId = Integer.valueOf(getIntent().getStringExtra("roomid"));
         String username = getIntent().getStringExtra("username");
         Button leaveBtn = (Button) findViewById(R.id.leave_room_btn);
+
+        final Activity thisActivity = this;
         leaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                leaveRoom();
+                thisActivity.finish();
+                //leaveRoom();
             }
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        try {
+            leaveRoom();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        super.onDestroy();
     }
 
     public void leaveRoom(){
@@ -51,13 +66,7 @@ public class RoomActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(final String response) {
-                        try {
-                            Intent intent = new Intent(RoomActivity.this, LobbyActivity.class);
-                            intent.putExtra("username", getIntent().getStringExtra("username"));
-                            startActivity(intent);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+
                     }
                 }, new Response.ErrorListener() {
             @Override

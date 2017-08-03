@@ -134,8 +134,7 @@ public class CommunicationManager {
         communicationMaker.execute(mInstance);
         //mInstance.initializeSignalRService();
     }
-
-
+    
     public String getSignalPath() {
         return "http://amimelia-001-site1.itempurl.com/signalr";
     }

@@ -1,11 +1,13 @@
 package com.example.khrak.wordgame.communication;
 
+import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 
+import com.example.khrak.wordgame.Activities.SignUpActivity;
 import com.example.khrak.wordgame.AppMain;
 import com.example.khrak.wordgame.communication.models.EventResponse;
 import com.example.khrak.wordgame.communication.models.GameEvent;
@@ -55,7 +57,7 @@ public class CommunicationManager {
         mInviteNotificaitonsListener = null;
     }
 
-    private void initializeSignalRService(){
+    protected void initializeSignalRService(){
         Intent intent = new Intent();
         intent.setClass(AppMain.getContext(), SignalRService.class);
         AppMain.getContext().bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
@@ -119,13 +121,18 @@ public class CommunicationManager {
         return mInstance;
     }
 
-    public static void Initialize(String userName){
+    public static void Initialize(String userName, SignUpActivity signUpActivity){
+
         if (mInstance == null){
             mInstance = new CommunicationManager();
         }
         mInstance.setUserName(userName);
-        mInstance.initializeSignalRService();
+        SignalrCommunicationMaker communicationMaker = new SignalrCommunicationMaker();
+        communicationMaker.SetCalledActivit(signUpActivity);
+        communicationMaker.execute(mInstance);
+        //mInstance.initializeSignalRService();
     }
+
 
     public String getSignalPath() {
         return "http://192.168.0.106:64146/signalr";

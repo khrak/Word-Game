@@ -1,5 +1,6 @@
 package com.example.khrak.wordgame.communication;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
@@ -122,11 +123,12 @@ public class CommunicationManager {
         return mInstance;
     }
 
-    public static void Initialize(String userName, SignUpActivity signUpActivity){
+    public static void Initialize(String userName, Activity signUpActivity){
 
         if (mInstance == null){
             mInstance = new CommunicationManager();
         }
+
         mInstance.setUserName(userName);
         SignalrCommunicationMaker communicationMaker = new SignalrCommunicationMaker();
         communicationMaker.SetCalledActivit(signUpActivity);
@@ -136,7 +138,7 @@ public class CommunicationManager {
 
 
     public String getSignalPath() {
-        return "http://192.168.0.106:64146/signalr";
+        return "http://amimelia-001-site1.itempurl.com/signalr";
     }
 
     public String getServerHub() {

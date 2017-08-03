@@ -51,6 +51,11 @@ public class LobbyActivity extends AppCompatActivity implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        System.out.println("lobby started");
+
+        mGoogleApiClient = WelcomeActivity.mGoogleApiClient;
+
         setContentView(R.layout.lobby_activity);
 
         getSupportActionBar().hide();
@@ -106,15 +111,6 @@ public class LobbyActivity extends AppCompatActivity implements
             }
         });
 
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
-
         final FloatingActionButton logoutButton = (FloatingActionButton) findViewById(R.id.logout_button);
 
         logoutButton.setOnClickListener(new View.OnClickListener() {
@@ -126,9 +122,9 @@ public class LobbyActivity extends AppCompatActivity implements
                         googleSignOut();
                     }
 
-//                    if (SignUpActivity.signedWithFacebook()) {
-//                        SignUpActivity.facebookSignOut();
-//                    }
+                    if (SignUpActivity.signedWithFacebook()) {
+                        SignUpActivity.facebookSignOut();
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

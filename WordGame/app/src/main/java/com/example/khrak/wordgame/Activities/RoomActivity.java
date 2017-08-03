@@ -143,8 +143,6 @@ public class RoomActivity extends AppCompatActivity implements IGameEventsListen
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
-
                     }
                 }, new Response.ErrorListener() {
             @Override

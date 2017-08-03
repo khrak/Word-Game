@@ -9,7 +9,7 @@
     android:paddingTop="@dimen/start_screen_top_margin">
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/room_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -23,7 +23,7 @@
 
     <RelativeLayout
         android:id="@+id/owner_layout"
-        android:layout_below="@id/title"
+        android:layout_below="@id/room_title"
         android:layout_marginLeft="9dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -42,6 +42,7 @@
             app:civ_border_color="#FF000000"/>
 
         <TextView
+            android:id="@+id/owner_image_view"
             android:layout_marginTop="8dp"
             android:layout_centerHorizontal="true"
             android:layout_below="@id/owner_image"
@@ -85,12 +86,13 @@
                     android:src="@drawable/avatar_defaultmark"/>
 
                 <TextView
+                    android:id="@+id/profile_name1"
                     android:layout_marginTop="3dp"
                     android:layout_centerHorizontal="true"
                     android:layout_below="@id/profile_image1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Mamuka"
+                    android:text="Pending"
                     android:textStyle="bold"
                     android:textColor="#C0FFFFFF"/>
 
@@ -112,15 +114,15 @@
                     android:src="@drawable/avatar_defaultmark"/>
 
                 <TextView
+                    android:id="@+id/profile_name2"
                     android:layout_marginTop="3dp"
                     android:layout_centerHorizontal="true"
                     android:layout_below="@id/profile_image2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Mamuka"
+                    android:text="Pending"
                     android:textStyle="bold"
                     android:textColor="#C0FFFFFF"/>
-
             </RelativeLayout>
 
             <RelativeLayout
@@ -139,12 +141,13 @@
                     android:src="@drawable/avatar_defaultmark"/>
 
                 <TextView
+                    android:id="@+id/profile_name3"
                     android:layout_marginTop="3dp"
                     android:layout_centerHorizontal="true"
                     android:layout_below="@id/profile_image3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Mamuka"
+                    android:text="Pending"
                     android:textStyle="bold"
                     android:textColor="#C0FFFFFF"/>
 
@@ -166,12 +169,13 @@
                     android:src="@drawable/avatar_defaultmark"/>
 
                 <TextView
+                    android:id="@+id/profile_name4"
                     android:layout_marginTop="3dp"
                     android:layout_centerHorizontal="true"
                     android:layout_below="@id/profile_image4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Mamuka"
+                    android:text="Pending"
                     android:textStyle="bold"
                     android:textColor="#C0FFFFFF"/>
 
@@ -193,13 +197,14 @@
                     android:src="@drawable/avatar_defaultmark"/>
 
                 <TextView
+                    android:id="@+id/profile_name5"
                     android:layout_marginTop="3dp"
                     android:layout_centerHorizontal="true"
                     android:layout_below="@id/profile_image5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
-                    android:text="Mamuka"
+                    android:text="Pending"
                     android:textColor="#C0FFFFFF"/>
 
             </RelativeLayout>

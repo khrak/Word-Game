@@ -62,14 +62,7 @@ public class SignUpActivity extends AppCompatActivity implements
 
         context = this;
 
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
+        mGoogleApiClient = WelcomeActivity.mGoogleApiClient;
 
         if (signedUp()) {
             if (Profile.getCurrentProfile() != null) {
@@ -159,35 +152,6 @@ public class SignUpActivity extends AppCompatActivity implements
                                     goToLobby(json.getString("username"));
 
                                 }
-
-                                if (json.get("username").equals("user.already.exists")) {
-                                    String keyPath = "http://amimelia-001-site1.itempurl.com/api/user/GetUserName/?useruid=" + userid;
-
-                                    // Request a string response from the provided URL.
-                                    StringRequest stringRequest = new StringRequest(Request.Method.GET, keyPath,
-                                            new Response.Listener<String>() {
-                                                @Override
-                                                public void onResponse(final String response) {
-                                                    try {
-                                                        JSONObject json = new JSONObject(response);
-
-                                                        if (json.has("username")) {
-                                                            goToLobby(json.getString("username"));
-                                                        }
-                                                    } catch (JSONException e) {
-                                                        e.printStackTrace();
-                                                    }
-                                                }
-                                            }, new Response.ErrorListener() {
-                                        @Override
-                                        public void onErrorResponse(VolleyError error) {
-                                            System.out.println("That didn't work!");
-                                        }
-                                    });
-
-                                    queue.add(stringRequest);
-
-                                }
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -213,6 +177,7 @@ public class SignUpActivity extends AppCompatActivity implements
 
         startActivity(intent);
     }
+
     @Override
     public void onStart() {
         super.onStart();

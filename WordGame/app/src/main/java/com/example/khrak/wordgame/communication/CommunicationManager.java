@@ -1,5 +1,6 @@
 package com.example.khrak.wordgame.communication;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
@@ -121,11 +122,12 @@ public class CommunicationManager {
         return mInstance;
     }
 
-    public static void Initialize(String userName, SignUpActivity signUpActivity){
+    public static void Initialize(String userName, Activity signUpActivity){
 
         if (mInstance == null){
             mInstance = new CommunicationManager();
         }
+
         mInstance.setUserName(userName);
         SignalrCommunicationMaker communicationMaker = new SignalrCommunicationMaker();
         communicationMaker.SetCalledActivit(signUpActivity);

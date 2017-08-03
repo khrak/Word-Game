@@ -95,8 +95,8 @@ public class ChooseUsernameActivity extends AppCompatActivity {
             public void onClick(View v) {
                 EditText editText = (EditText) findViewById(R.id.edit_text);
 
-                registerNewUser(editText.getText().toString(), userid);
 
+                registerNewUser(editText.getText().toString(), userid);
                 editText.setText("");
             }
         });

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.khrak.wordgame.R;
+import com.example.khrak.wordgame.TestActivity;
 
 public class WelcomeActivity extends AppCompatActivity {
 
@@ -32,7 +33,7 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     public void multiplayerClicked(View view) {
-        Intent intent = new Intent(this, WelcomeMultiplayer.class);
+        Intent intent = new Intent(this, SignUpActivity.class);
 
         startActivity(intent);
     }

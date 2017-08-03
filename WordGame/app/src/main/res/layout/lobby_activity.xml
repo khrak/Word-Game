@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:background="@color/background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/header_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/lobbyheader_button">
+
+        <TextView
+            android:id="@+id/room_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="ROOM"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:textColor="#DCA32B"
+            android:textSize="17sp"/>
+
+        <TextView
+            android:id="@+id/num_players"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="#DCA32B"
+            android:text="PLAYERS"
+            android:textSize="17sp"/>
+
+
+        <TextView
+            android:id="@+id/privacy_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textColor="#DCA32B"
+            android:layout_centerVertical="true"
+            android:text="PRIVACY"
+            android:layout_marginRight="10dp"
+            android:textSize="17sp"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_below="@id/header_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/lobbylist_button">
+
+        <ListView
+            android:id="@+id/rooms_list"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:dividerHeight="10.0sp">
+
+        </ListView>
+    </RelativeLayout>
+
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:id="@+id/multiple_actions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        fab:fab_addButtonColorNormal="@color/white"
+        fab:fab_addButtonColorPressed="@color/white_pressed"
+        fab:fab_addButtonPlusIconColor="@color/half_black"
+        fab:fab_labelStyle="@style/menu_labels_style"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp">
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/createroom_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/white"
+            fab:fab_title="NEW ROOM"
+            fab:fab_colorPressed="@color/white_pressed"/>
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/settings_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/white"
+            fab:fab_title="SETTINGS"
+            fab:fab_colorPressed="@color/white_pressed"/>
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/logout_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_title="LOG OUT"
+            fab:fab_colorPressed="@color/white_pressed"/>
+
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/profile_image"
+        android:layout_width="58dp"
+        android:layout_height="58dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="26dp"
+        android:src="@drawable/w_icon"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        app:civ_border_width="1dp"
+        app:civ_border_color="#FF000000"/>
+
+</RelativeLayout>

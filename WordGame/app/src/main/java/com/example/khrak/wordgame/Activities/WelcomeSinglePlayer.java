@@ -11,7 +11,7 @@ public class WelcomeSinglePlayer extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.welcome_singleplayer);
+        setContentView(R.layout.room_activity);
 
         getSupportActionBar().hide();
     }

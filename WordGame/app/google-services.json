@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "462708453599",
+    "project_id": "wordgame-29953"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:462708453599:android:b700e76585ae1de8",
+        "android_client_info": {
+          "package_name": "com.example.khrak.wordgame"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "462708453599-m3fqojpisbdjntr3ck4896npm3m1stor.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.khrak.wordgame",
+            "certificate_hash": "bd6f470d0b21fce6c763c5b75ecb070ed0e370b9"
+          }
+        },
+        {
+          "client_id": "462708453599-9c1r25k7lkkp47pe2haap6el7gro3fma.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-ymMhzQB_2KYvBc8-IXjNCdSd9F_kDY4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

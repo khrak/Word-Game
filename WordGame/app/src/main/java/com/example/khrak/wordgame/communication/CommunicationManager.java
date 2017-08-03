@@ -76,7 +76,8 @@ public class CommunicationManager {
     public void EventReceived(EventResponse eventResponse){
         GameEvent event = GameEventFactory.getGameEvent(eventResponse);
         if (isInviteNotification(event)){
-            mInviteNotificaitonsListener.processGameEvent(event);
+            if (mInviteNotificaitonsListener != null)
+                mInviteNotificaitonsListener.processGameEvent(event);
         }else{
             for (IGameEventsListener eventListener : mGameEventsListeners) {
                 eventListener.processGameEvent(event);
@@ -85,7 +86,7 @@ public class CommunicationManager {
     }
 
     public boolean isInviteNotification(GameEvent event){
-        return false;
+        return event.IsSameEvent(GameEventFactory.EVENT_KET_INVITATION_RECEVED);
     }
 
 

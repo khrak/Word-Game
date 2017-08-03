@@ -206,8 +206,7 @@ public class SignUpActivity extends AppCompatActivity implements
 
     private void goToLobby(String username) {
 
-        CommunicationManager.Initialize(username);
-
+        CommunicationManager.Initialize(username, SignUpActivity.this);
         Intent intent = new Intent(context, LobbyActivity.class);
 
         intent.putExtra("username", username);

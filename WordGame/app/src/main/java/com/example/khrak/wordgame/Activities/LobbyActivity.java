@@ -2,6 +2,7 @@ package com.example.khrak.wordgame.Activities;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -43,7 +44,8 @@ public class LobbyActivity extends AppCompatActivity implements
         View.OnClickListener {
 
     private GoogleApiClient mGoogleApiClient;
-
+    private int LobbyUpdateDelay = 2000; //milliseconds
+    private Handler LobbyUpdateHandler = new Handler();
     private RadioButton privateButton;
 
     @Override
@@ -136,6 +138,26 @@ public class LobbyActivity extends AppCompatActivity implements
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        drawRooms(CommunicationManager.getInstance().getUserName());
+
+        LobbyUpdateHandler.postDelayed(new Runnable(){
+            public void run(){
+                drawRooms(CommunicationManager.getInstance().getUserName());
+                LobbyUpdateHandler.postDelayed(this, LobbyUpdateDelay);
+            }
+        }, LobbyUpdateDelay);
+
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        LobbyUpdateHandler.removeCallbacksAndMessages(null);
+        super.onPause();
     }
 
     private void addRoom(String roomName, String privacy) {

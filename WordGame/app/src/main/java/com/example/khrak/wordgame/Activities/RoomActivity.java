@@ -98,19 +98,19 @@ public class RoomActivity extends AppCompatActivity {
                                 updateViews(ownerName, imageView1, nameView1, array.getJSONObject(0));
 
                                 if (array.length() > 1) {
-                                    updateViews(ownerName, imageView1, nameView1, array.getJSONObject(1));
+                                    updateViews(ownerName, imageView2, nameView2, array.getJSONObject(1));
                                 }
 
                                 if (array.length() > 2) {
-                                    updateViews(ownerName, imageView1, nameView1, array.getJSONObject(2));
+                                    updateViews(ownerName, imageView3, nameView3, array.getJSONObject(2));
                                 }
 
                                 if (array.length() > 3) {
-                                    updateViews(ownerName, imageView1, nameView1, array.getJSONObject(3));
+                                    updateViews(ownerName, imageView4, nameView4, array.getJSONObject(3));
                                 }
 
                                 if (array.length() > 4) {
-                                    updateViews(ownerName, imageView1, nameView1, array.getJSONObject(4));
+                                    updateViews(ownerName, imageView5, nameView5, array.getJSONObject(4));
                                 }
                             }
 

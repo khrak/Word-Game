@@ -184,11 +184,12 @@ public class LobbyActivity extends AppCompatActivity implements
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+
                 System.out.println("That didn't work!");
             }
         });
@@ -279,7 +280,7 @@ public class LobbyActivity extends AppCompatActivity implements
         queue.add(stringRequest);
     }
 
-    private void joinRoom(Room room, String username) {
+    private void joinRoom(final Room room, final String username) {
         final com.android.volley.RequestQueue queue = Volley.newRequestQueue(this);
 
         String keyPath = "http://amimelia-001-site1.itempurl.com/api/gamelobby/JoinRoom?userName="
@@ -293,7 +294,12 @@ public class LobbyActivity extends AppCompatActivity implements
                     @Override
                     public void onResponse(final String response) {
 
-                        System.out.println("Joined");
+                        Intent intent = new Intent(LobbyActivity.this, RoomActivity.class);
+
+                        intent.putExtra("roomid", room.getId());
+                        intent.putExtra("username", username);
+
+                        startActivity(intent);
 
                     }
                 }, new Response.ErrorListener() {
@@ -305,12 +311,5 @@ public class LobbyActivity extends AppCompatActivity implements
 
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
-
-        Intent intent = new Intent(this, RoomActivity.class);
-
-        intent.putExtra("roomid", room.getId());
-        intent.putExtra("username", username);
-
-        startActivity(intent);
     }
 }

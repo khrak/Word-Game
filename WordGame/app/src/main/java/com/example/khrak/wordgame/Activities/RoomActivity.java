@@ -20,6 +20,7 @@ import com.example.khrak.wordgame.communication.CommunicationManager;
 import com.example.khrak.wordgame.communication.IGameEventsListener;
 import com.example.khrak.wordgame.communication.models.GameEvent;
 import com.example.khrak.wordgame.communication.models.GameEventFactory;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -71,7 +72,9 @@ public class RoomActivity extends ICommunictorActivity implements IGameEventsLis
     }
 
 
-    private void drawRoom(int roomId, String username) {
+    private void drawRoom(int roomId, final String username) {
+
+        initializeRoom();
 
         String url ="http://amimelia-001-site1.itempurl.com/api/gamelobby/GetRoom?userName=" +
                 username + "&roomId=" + roomId;
@@ -96,6 +99,23 @@ public class RoomActivity extends ICommunictorActivity implements IGameEventsLis
                                 TextView ownerView = (TextView) findViewById(R.id.owner_image_view);
 
                                 ownerView.setText(ownerName);
+                            }
+
+                            if (!username.equals(ownerName)) {
+                                FloatingActionsMenu inviteButton = (FloatingActionsMenu) findViewById(R.id.invite_button);
+
+                                inviteButton.setVisibility(View.GONE);
+                            } else {
+                                Button waitingButton = (Button) findViewById(R.id.waiting_button);
+
+                                waitingButton.setText("START GAME");
+
+                                waitingButton.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        System.out.println("All right bitches!! Here we goo!!!");
+                                    }
+                                });
                             }
 
                             if (jsonObject.has("RoomName")) {
@@ -153,6 +173,40 @@ public class RoomActivity extends ICommunictorActivity implements IGameEventsLis
 
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
+    }
+
+    private void initializeRoom() {
+        TextView ownerView = (TextView) findViewById(R.id.owner_image_view);
+
+        ownerView.setText("Pending");
+
+        Button waitingButton = (Button) findViewById(R.id.waiting_button);
+
+        waitingButton.setText("WAITING TO START");
+
+        ImageView imageView1 = (ImageView) findViewById(R.id.profile_image1);
+        ImageView imageView2 = (ImageView) findViewById(R.id.profile_image2);
+        ImageView imageView3 = (ImageView) findViewById(R.id.profile_image3);
+        ImageView imageView4 = (ImageView) findViewById(R.id.profile_image4);
+        ImageView imageView5 = (ImageView) findViewById(R.id.profile_image5);
+
+        TextView nameView1 = (TextView) findViewById(R.id.profile_name1);
+        TextView nameView2 = (TextView) findViewById(R.id.profile_name2);
+        TextView nameView3 = (TextView) findViewById(R.id.profile_name3);
+        TextView nameView4 = (TextView) findViewById(R.id.profile_name4);
+        TextView nameView5 = (TextView) findViewById(R.id.profile_name5);
+
+        imageView1.setImageResource(R.drawable.avatar_defaultmark);
+        imageView2.setImageResource(R.drawable.avatar_defaultmark);
+        imageView3.setImageResource(R.drawable.avatar_defaultmark);
+        imageView4.setImageResource(R.drawable.avatar_defaultmark);
+        imageView5.setImageResource(R.drawable.avatar_defaultmark);
+
+        nameView1.setText("Pending");
+        nameView2.setText("Pending");
+        nameView3.setText("Pending");
+        nameView4.setText("Pending");
+        nameView5.setText("Pending");
     }
 
     private void updateViews(String ownerName, ImageView imageView1, TextView nameView1, JSONObject jsonObject) {

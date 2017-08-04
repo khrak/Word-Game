@@ -221,7 +221,7 @@
         android:layout_height="wrap_content">
 
             <Button
-                android:id="@+id/about"
+                android:id="@+id/waiting_button"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -236,7 +236,7 @@
                 android:id="@+id/leave_room_btn"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/about"
+                android:layout_below="@+id/waiting_button"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="7dp"
                 android:background="@drawable/button"
@@ -247,7 +247,7 @@
     </RelativeLayout>
 
     <com.getbase.floatingactionbutton.FloatingActionsMenu
-        android:id="@+id/multiple_actions"
+        android:id="@+id/invite_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

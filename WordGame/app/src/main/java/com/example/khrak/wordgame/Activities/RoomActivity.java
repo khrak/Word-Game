@@ -25,7 +25,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class RoomActivity extends AppCompatActivity implements IGameEventsListener {
+public class RoomActivity extends ICommunictorActivity implements IGameEventsListener {
     private int roomId;
 
     @Override

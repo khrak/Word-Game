@@ -127,6 +127,7 @@ public class SignalRService extends Service {
                     @Override
                     public void run(final EventResponse eventResponse) {
                         Log.w("SimpleSignalR", "Received " + eventResponse.eventKey  + " data = " + eventResponse.eventJsonData);
+                        System.out.print("Received" + eventResponse.eventKey );
                         CommunicationManager.getInstance().EventReceived(eventResponse);
                         mHandler.post(new Runnable() {
                             @Override

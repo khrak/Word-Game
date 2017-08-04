@@ -130,9 +130,9 @@ public class CommunicationManager {
         }
 
         mInstance.setUserName(userName);
-        SignalrCommunicationMaker communicationMaker = new SignalrCommunicationMaker();
-        communicationMaker.SetCalledActivit(signUpActivity);
-        communicationMaker.execute(mInstance);
+        //SignalrCommunicationMaker communicationMaker = new SignalrCommunicationMaker();
+        //communicationMaker.SetCalledActivit(signUpActivity);
+        //communicationMaker.execute(mInstance);
         //mInstance.initializeSignalRService();
     }
     

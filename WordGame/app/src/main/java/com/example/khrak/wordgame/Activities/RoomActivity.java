@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -33,7 +32,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class RoomActivity extends AppCompatActivity implements IGameEventsListener {
+public class RoomActivity extends ICommunicatorActivity {
     private int roomId;
     private String username;
 
@@ -58,14 +57,7 @@ public class RoomActivity extends AppCompatActivity implements IGameEventsListen
                 //leaveRoom();
             }
         });
-
-        try {
-            drawRoom(roomId, username);
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        attachGameEventListener();
+        //attachGameEventListener();
     }
 
 
@@ -82,6 +74,16 @@ public class RoomActivity extends AppCompatActivity implements IGameEventsListen
             e.printStackTrace();
         }
         super.onDestroy();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        try {
+            drawRoom(roomId, CommunicationManager.getInstance().getUserName());
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void drawRoom(int roomId, final String username) {
@@ -419,7 +421,7 @@ public class RoomActivity extends AppCompatActivity implements IGameEventsListen
 
     public void leaveRoom() {
 
-        dispachGameEventsListener();
+        //dispachGameEventsListener();
         String url ="http://amimelia-001-site1.itempurl.com/api/Gamelobby/LeaveRoom?userName="
                 + CommunicationManager.getInstance().getUserName();
 
@@ -451,6 +453,7 @@ public class RoomActivity extends AppCompatActivity implements IGameEventsListen
 
     @Override
     public void processGameEvent(GameEvent event) {
+        WriteLogMessage("Event in Activity : " + event.eventKey);
         if (event.IsSameEvent(GameEventFactory.EVENT_KET_UPDATE_ROOM)){
             drawRoom(roomId, CommunicationManager.getInstance().getUserName());
         }

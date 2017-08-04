@@ -10,6 +10,7 @@ public class GameEventFactory {
     public static final String EVENT_KET_TEST = "game.event.test";
     public static final String EVENT_KET_UPDATE_ROOM = "game.event.room.changed";
     public static final String EVENT_KET_INVITATION_RECEVED = "game.event.invitation.receved";
+    public static final String EVENT_KET_PING = "game.event.ping";
 
     public static GameEvent getGameEvent(EventResponse responce){
         switch (responce.eventKey){

@@ -158,6 +158,11 @@ public class LobbyActivity extends ICommunicatorActivity implements
     }
 
     @Override
+    public void connectionToServerEstabilished() {
+        drawRooms(CommunicationManager.getInstance().getUserName());
+    }
+
+    @Override
     public void onPause() {
         LobbyUpdateHandler.removeCallbacksAndMessages(null);
         super.onPause();

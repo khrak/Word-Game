@@ -45,7 +45,8 @@ public class CommunicationManager {
     }
 
     public void addGameEventListener(IGameEventsListener eventListener){
-        mGameEventsListeners.add(eventListener);
+        if(!mGameEventsListeners.contains(eventListener))
+            mGameEventsListeners.add(eventListener);
     }
 
     public void removeGameEventListener(IGameEventsListener eventListener){

@@ -9,6 +9,7 @@ import android.os.Looper;
 import android.util.Log;
 
 import com.example.khrak.wordgame.communication.models.EventResponse;
+import com.example.khrak.wordgame.communication.models.GameEventFactory;
 
 import java.util.concurrent.ExecutionException;
 
@@ -34,6 +35,8 @@ public class SignalRService extends Service {
     private HubProxy mHubProxy;
     private Handler mHandler; // to display Toast message
     private final IBinder mBinder = new LocalBinder(); // Binder given to clients
+    Thread pingerThread = null;
+    private static final int PING_REQUEST_TIMER = 1000 * 7;
 
     public SignalRService() {
     }
@@ -53,6 +56,10 @@ public class SignalRService extends Service {
 
     @Override
     public void onDestroy() {
+
+        if (pingerThread != null)
+            pingerThread.interrupt();
+        pingerThread = null;
         mHubConnection.stop();
         super.onDestroy();
     }
@@ -138,5 +145,41 @@ public class SignalRService extends Service {
                     }
                 }
                 , EventResponse.class);
+
+        //start pinging to server
+        startInfinitLoopCycle();
+    }
+
+    private void sendPingToServer(){
+        Log.w("Pinger", "Pinging Server, I am Alive");
+        EventResponse eventResponce = new EventResponse();
+        eventResponce.eventKey = GameEventFactory.EVENT_KET_PING;
+        eventResponce.eventAuthor = CommunicationManager.getInstance().getUserName();
+        eventResponce.eventJsonData = "";
+        sendEvent(eventResponce);
+    }
+
+    private void startInfinitLoopCycle(){
+        if (pingerThread != null)
+            pingerThread.interrupt();
+
+        pingerThread = new Thread(new Runnable() {
+            @Override
+            public void run () {
+                while(true){
+                    if (Thread.interrupted()){
+                        break;
+                    }
+                    try {
+                        Thread.sleep(PING_REQUEST_TIMER);
+                    }catch (Exception e){
+                        break;
+                    }
+
+                    sendPingToServer();
+                }
+            }
+        });
+        pingerThread.start();
     }
 }

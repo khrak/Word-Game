@@ -28,7 +28,7 @@ public abstract class ICommunicatorActivity extends AppCompatActivity implements
     private SignalRService mService;
     private boolean mBound = false;
     private NetworkStateReceiver networkStateReceiver;
-
+    private boolean isFirstRun = true;
     ProgressDialog progress;
 
     @Override
@@ -41,6 +41,7 @@ public abstract class ICommunicatorActivity extends AppCompatActivity implements
     }
 
     private void bindCommunicationServer(){
+        unBindCommunicationService();
         Intent intent = new Intent();
         intent.setClass(mContext, SignalRService.class);
         bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
@@ -58,8 +59,7 @@ public abstract class ICommunicatorActivity extends AppCompatActivity implements
 
     @Override
     protected void onPause(){
-        WriteLogMessage("On Pause Happaned ");
-        unBindCommunicationService();
+        WriteLogMessage("On Pause Happened. Service not unbounded. ");
         super.onPause();
     }
 
@@ -78,24 +78,29 @@ public abstract class ICommunicatorActivity extends AppCompatActivity implements
     protected  void onDestroy(){
         super.onDestroy();
         networkStateReceiver.removeListener(this);
+        unBindCommunicationService();
         this.unregisterReceiver(networkStateReceiver);
     }
 
     @Override
     public void networkAvailable() {
         Log.d("InternetState", "I'm in, baby!");
-        if (!mBound){
-            bindCommunicationServer();
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run()
-                {
-                    if (progress != null)
-                        progress.dismiss();
-                    progress = null;
-                }
-            });
+        if (isFirstRun)
+        {
+            isFirstRun = false;
+            return;
         }
+        bindCommunicationServer();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run()
+            {
+                if (progress != null)
+                    progress.dismiss();
+                progress = null;
+                connectionToServerEstabilished();
+            }
+        });
     }
 
     @Override
@@ -134,4 +139,5 @@ public abstract class ICommunicatorActivity extends AppCompatActivity implements
     }
 
     public abstract void processGameEvent(GameEvent event);
+    public abstract void connectionToServerEstabilished();
 }

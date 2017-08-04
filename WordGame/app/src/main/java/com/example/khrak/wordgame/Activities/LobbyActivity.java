@@ -27,7 +27,6 @@ import com.example.khrak.wordgame.communication.CommunicationManager;
 import com.example.khrak.wordgame.communication.models.GameEvent;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
@@ -53,6 +52,8 @@ public class LobbyActivity extends ICommunicatorActivity implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        System.out.println("On create called");
+
         System.out.println("lobby started");
 
         mGoogleApiClient = WelcomeActivity.mGoogleApiClient;
@@ -63,7 +64,7 @@ public class LobbyActivity extends ICommunicatorActivity implements
 
         final String username = getIntent().getStringExtra("username");
 
-        drawRooms(username);
+        drawRooms(git sta);
 
         final FloatingActionButton createRoom = (FloatingActionButton) findViewById(R.id.createroom_button);
 
@@ -140,7 +141,7 @@ public class LobbyActivity extends ICommunicatorActivity implements
     @Override
     public void onResume() {
         drawRooms(CommunicationManager.getInstance().getUserName());
-
+        System.out.println("On resume called");
         LobbyUpdateHandler.postDelayed(new Runnable(){
             public void run(){
                 drawRooms(CommunicationManager.getInstance().getUserName());
@@ -289,33 +290,39 @@ public class LobbyActivity extends ICommunicatorActivity implements
     private void joinRoom(final Room room, final String username) {
         final com.android.volley.RequestQueue queue = Volley.newRequestQueue(this);
 
-        String keyPath = "http://amimelia-001-site1.itempurl.com/api/gamelobby/JoinRoom?userName="
-                + username + "&roomId=" + room.getId();
+        System.out.println(username);
 
-        System.out.println(keyPath);
+        try {
+            String keyPath = "http://amimelia-001-site1.itempurl.com/api/gamelobby/JoinRoom?userName="
+                    + username + "&roomId=" + room.getId();
 
-        // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, keyPath,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(final String response) {
+            System.out.println(keyPath);
 
-                        Intent intent = new Intent(LobbyActivity.this, RoomActivity.class);
+            // Request a string response from the provided URL.
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, keyPath,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(final String response) {
 
-                        intent.putExtra("roomid", room.getId());
-                        intent.putExtra("username", username);
+                            Intent intent = new Intent(LobbyActivity.this, RoomActivity.class);
 
-                        startActivity(intent);
+                            intent.putExtra("roomid", room.getId());
+                            intent.putExtra("username", username);
 
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                System.out.println("That didn't work!");
-            }
-        });
+                            startActivity(intent);
 
-        // Add the request to the RequestQueue.
-        queue.add(stringRequest);
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    System.out.println("That didn't work!");
+                }
+            });
+
+            // Add the request to the RequestQueue.
+            queue.add(stringRequest);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

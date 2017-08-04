@@ -13,10 +13,8 @@ public class InvitationReceivedEvent extends GameEvent<InviteGameEventData> {
 
     public InvitationReceivedEvent(EventResponse eventResponse){
         super(eventResponse);
+        eventData = new InviteGameEventData();
         Gson gson = new Gson();
         eventData = gson.fromJson(eventResponse.eventJsonData, eventData.getClass());
     }
-
-
-
 }

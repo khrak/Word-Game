@@ -60,7 +60,6 @@ public class RoomActivity extends ICommunicatorActivity {
         //attachGameEventListener();
     }
 
-
     @Override
     public void onBackPressed() {
         this.finish();

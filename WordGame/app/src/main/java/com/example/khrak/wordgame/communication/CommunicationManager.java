@@ -80,8 +80,16 @@ public class CommunicationManager {
     }
 
     public void EventReceived(EventResponse eventResponse){
-        GameEvent event = GameEventFactory.getGameEvent(eventResponse);
+        GameEvent event = null;
+
+        try {
+            event = GameEventFactory.getGameEvent(eventResponse);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         Log.w("EventReceived", "Event "+  event.eventKey +"Captured, Parsed. Registered Listeners Num = " + mGameEventsListeners.size());
+
         if (isInviteNotification(event)){
             if (mInviteNotificaitonsListener != null)
                 mInviteNotificaitonsListener.processGameEvent(event);

@@ -10,7 +10,7 @@ public class TestGameEvent extends GameEvent<String> {
 
     public TestGameEvent(EventResponse eventResponse){
         super(eventResponse);
-        Gson gson = new Gson();
-        eventData = gson.fromJson(eventResponse.eventJsonData, eventData.getClass());
+        //Gson gson = new Gson();
+        //eventData = gson.fromJson(eventResponse.eventJsonData, eventData.getClass());
     }
 }

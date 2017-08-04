@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
+import android.util.Log;
 
 import com.example.khrak.wordgame.Activities.SignUpActivity;
 import com.example.khrak.wordgame.AppMain;
@@ -32,6 +33,7 @@ public class CommunicationManager {
 
 
     public CommunicationManager(){
+        addInviteNotificationsListener(new GameInvitesListener());
     }
 
     public void setUserName(String userName){
@@ -79,6 +81,7 @@ public class CommunicationManager {
 
     public void EventReceived(EventResponse eventResponse){
         GameEvent event = GameEventFactory.getGameEvent(eventResponse);
+        Log.w("EventReceived", "Event "+  event.eventKey +"Captured, Parsed. Registered Listeners Num = " + mGameEventsListeners.size());
         if (isInviteNotification(event)){
             if (mInviteNotificaitonsListener != null)
                 mInviteNotificaitonsListener.processGameEvent(event);

@@ -2,11 +2,9 @@ package com.example.khrak.wordgame.Activities;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,7 +24,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class RoomActivity extends ICommunictorActivity implements IGameEventsListener {
+public class RoomActivity extends ICommunicatorActivity {
     private int roomId;
 
     @Override
@@ -52,7 +50,7 @@ public class RoomActivity extends ICommunictorActivity implements IGameEventsLis
         });
 
         drawRoom(roomId, username);
-        attachGameEventListener();
+        //attachGameEventListener();
     }
 
 
@@ -71,10 +69,20 @@ public class RoomActivity extends ICommunictorActivity implements IGameEventsLis
         super.onDestroy();
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        drawRoom(roomId, CommunicationManager.getInstance().getUserName());
+    }
+
 
     private void drawRoom(int roomId, final String username) {
 
-        initializeRoom();
+        runOnUiThread(new Runnable() {
+            public void run() {
+                initializeRoom();
+            }
+        });
 
         String url ="http://amimelia-001-site1.itempurl.com/api/gamelobby/GetRoom?userName=" +
                 username + "&roomId=" + roomId;
@@ -282,7 +290,7 @@ public class RoomActivity extends ICommunictorActivity implements IGameEventsLis
 
     public void leaveRoom() {
 
-        dispachGameEventsListener();
+        //dispachGameEventsListener();
         String url ="http://amimelia-001-site1.itempurl.com/api/Gamelobby/LeaveRoom?userName="
                 + CommunicationManager.getInstance().getUserName();
 
@@ -314,6 +322,7 @@ public class RoomActivity extends ICommunictorActivity implements IGameEventsLis
 
     @Override
     public void processGameEvent(GameEvent event) {
+        WriteLogMessage("Event in Activity : " + event.eventKey);
         if (event.IsSameEvent(GameEventFactory.EVENT_KET_UPDATE_ROOM)){
             drawRoom(roomId, CommunicationManager.getInstance().getUserName());
         }

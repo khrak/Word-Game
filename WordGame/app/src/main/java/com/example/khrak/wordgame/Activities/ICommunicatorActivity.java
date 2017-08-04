@@ -9,13 +9,17 @@ import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.example.khrak.wordgame.communication.CommunicationManager;
+import com.example.khrak.wordgame.communication.IGameEventsListener;
 import com.example.khrak.wordgame.communication.SignalRService;
+import com.example.khrak.wordgame.communication.models.GameEvent;
 
 /**
  * Created by melia on 8/4/2017.
  */
 
-public class ICommunictorActivity extends AppCompatActivity {
+public abstract class ICommunicatorActivity extends AppCompatActivity implements IGameEventsListener{
+
     private final Context mContext = this;
     private SignalRService mService;
     private boolean mBound = false;
@@ -30,6 +34,7 @@ public class ICommunictorActivity extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setClass(mContext, SignalRService.class);
         bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+        CommunicationManager.getInstance().addGameEventListener(this);
     }
 
     private void unBindCommunicationService(){
@@ -37,18 +42,20 @@ public class ICommunictorActivity extends AppCompatActivity {
         if (mBound) {
             unbindService(mConnection);
             mBound = false;
+            CommunicationManager.getInstance().removeGameEventListener(this);
         }
     }
 
     @Override
     protected void onPause(){
-        bindCommunicationServer();
+        WriteLogMessage("On Pause Happaned ");
+        unBindCommunicationService();
         super.onPause();
     }
 
     @Override
     protected void onResume(){
-        unBindCommunicationService();
+        bindCommunicationServer();
         super.onResume();
     }
 
@@ -80,8 +87,10 @@ public class ICommunictorActivity extends AppCompatActivity {
         }
     };
 
-    private void WriteLogMessage(String message){
+    public void WriteLogMessage(String message){
         System.out.println(message);
         Log.e("Communication", message);
     }
+
+    public abstract void processGameEvent(GameEvent event);
 }

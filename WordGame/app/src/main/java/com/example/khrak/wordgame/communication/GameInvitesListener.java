@@ -20,6 +20,6 @@ public class GameInvitesListener implements IGameEventsListener {
             return;
 
         InviteGameEventData eventData = (InviteGameEventData) event.getEventData();
-        Log.w("InviteRequestReceived", "roomid = " + eventData .roomId + " user = " + eventData.inviteAuthor.UserName);
+        Log.w("InviteRequestReceived", "roomid = " + eventData.roomId + " user = " + eventData.inviteAuthor.UserName);
     }
 }

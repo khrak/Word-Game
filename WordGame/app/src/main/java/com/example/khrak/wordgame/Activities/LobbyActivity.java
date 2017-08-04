@@ -64,7 +64,7 @@ public class LobbyActivity extends ICommunicatorActivity implements
 
         final String username = getIntent().getStringExtra("username");
 
-        drawRooms(git sta);
+        drawRooms(username);
 
         final FloatingActionButton createRoom = (FloatingActionButton) findViewById(R.id.createroom_button);
 

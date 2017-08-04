@@ -83,7 +83,7 @@ public class RoomActivity extends AppCompatActivity implements IGameEventsListen
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(final String response) {
-
+                        System.out.println(response);
                         try {
                             JSONObject jsonObject = new JSONObject(response);
 

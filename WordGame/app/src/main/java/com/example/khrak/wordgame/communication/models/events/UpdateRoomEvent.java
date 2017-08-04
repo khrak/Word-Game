@@ -12,8 +12,8 @@ public class UpdateRoomEvent extends GameEvent<String> {
 
     public UpdateRoomEvent(EventResponse eventResponse){
         super(eventResponse);
-        Gson gson = new Gson();
-        eventData = gson.fromJson(eventResponse.eventJsonData, eventData.getClass());
+        //Gson gson = new Gson();
+        //eventData = gson.fromJson(eventResponse.eventJsonData, eventData.getClass());
     }
 
 

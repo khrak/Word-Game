@@ -63,8 +63,8 @@ public class LobbyActivity extends ICommunicatorActivity implements
         getSupportActionBar().hide();
 
         final String username = getIntent().getStringExtra("username");
-
-        drawRooms(username);
+        System.out.println("Test Username = " + username);
+        drawRooms(CommunicationManager.getInstance().getUserName());
 
         final FloatingActionButton createRoom = (FloatingActionButton) findViewById(R.id.createroom_button);
 
@@ -273,7 +273,7 @@ public class LobbyActivity extends ICommunicatorActivity implements
 
                                     Room room = (Room) adapter.getItem(position);
 
-                                    joinRoom(room, username);
+                                    joinRoom(room, CommunicationManager.getInstance().getUserName());
                                 }
                             });
 

@@ -1,20 +1,27 @@
 package com.example.khrak.wordgame.Activities;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.khrak.wordgame.Model.Room;
 import com.example.khrak.wordgame.R;
 import com.example.khrak.wordgame.communication.CommunicationManager;
 import com.example.khrak.wordgame.communication.IGameEventsListener;
@@ -28,6 +35,7 @@ import org.json.JSONObject;
 
 public class RoomActivity extends AppCompatActivity implements IGameEventsListener {
     private int roomId;
+    private String username;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,9 +46,9 @@ public class RoomActivity extends AppCompatActivity implements IGameEventsListen
         getSupportActionBar().hide();
 
         roomId = Integer.valueOf(getIntent().getStringExtra("roomid"));
-        String username = getIntent().getStringExtra("username");
-        Button leaveBtn = (Button) findViewById(R.id.leave_room_btn);
+        username = getIntent().getStringExtra("username");
 
+        Button leaveBtn = (Button) findViewById(R.id.leave_room_btn);
 
         final Activity thisActivity = this;
         leaveBtn.setOnClickListener(new View.OnClickListener() {
@@ -51,7 +59,12 @@ public class RoomActivity extends AppCompatActivity implements IGameEventsListen
             }
         });
 
-        drawRoom(roomId, username);
+        try {
+            drawRoom(roomId, username);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
         attachGameEventListener();
     }
 
@@ -71,10 +84,13 @@ public class RoomActivity extends AppCompatActivity implements IGameEventsListen
         super.onDestroy();
     }
 
-
     private void drawRoom(int roomId, final String username) {
 
-        initializeRoom();
+        runOnUiThread(new Runnable() {
+            public void run() {
+                initializeRoom();
+            }
+        });
 
         String url ="http://amimelia-001-site1.itempurl.com/api/gamelobby/GetRoom?userName=" +
                 username + "&roomId=" + roomId;
@@ -101,10 +117,12 @@ public class RoomActivity extends AppCompatActivity implements IGameEventsListen
                                 ownerView.setText(ownerName);
                             }
 
+                            final FloatingActionsMenu inviteButton = (FloatingActionsMenu) findViewById(R.id.invitefriends_button);
+
                             if (!username.equals(ownerName)) {
-                                FloatingActionsMenu inviteButton = (FloatingActionsMenu) findViewById(R.id.invite_button);
 
                                 inviteButton.setVisibility(View.GONE);
+
                             } else {
                                 Button waitingButton = (Button) findViewById(R.id.waiting_button);
 
@@ -114,6 +132,22 @@ public class RoomActivity extends AppCompatActivity implements IGameEventsListen
                                     @Override
                                     public void onClick(View v) {
                                         System.out.println("All right bitches!! Here we goo!!!");
+                                    }
+                                });
+
+                                inviteButton.setOnFloatingActionsMenuUpdateListener(new FloatingActionsMenu.OnFloatingActionsMenuUpdateListener() {
+                                    @Override
+                                    public void onMenuExpanded() {
+                                        try {
+                                            showInvitationDialog();
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onMenuCollapsed() {
+                                        System.out.println("Collapsed");
                                     }
                                 });
                             }
@@ -175,7 +209,106 @@ public class RoomActivity extends AppCompatActivity implements IGameEventsListen
         queue.add(stringRequest);
     }
 
+    private void showInvitationDialog() {
+        final Dialog dialog = new Dialog(RoomActivity.this);
+
+        final FloatingActionsMenu inviteButton = (FloatingActionsMenu) findViewById(R.id.invitefriends_button);
+
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        dialog.setContentView(R.layout.invitation_dialog);
+
+        Button invitationButton = (Button) dialog.findViewById(R.id.send_invitation);
+        Button cancelButton = (Button) dialog.findViewById(R.id.cancel_invitation);
+
+        invitationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                EditText editText = (EditText) dialog.findViewById(R.id.username_view);
+
+                String invitee = editText.getText().toString();
+
+                editText.setText("");
+
+                System.out.println("username " + username);
+                System.out.println("userto " + invitee);
+                System.out.println("roomid " + roomId);
+
+                final String url ="http://amimelia-001-site1.itempurl.com/api/gamelobby/SendGameInvitiation?userName="
+                            + username + "&userTo=" + invitee + "&roomId=" + roomId;
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        inviteFriend(url);
+                    }
+                });
+            }
+        });
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                inviteButton.collapse();
+            }
+        });
+
+        dialog.show();
+    }
+
+    private void inviteFriend(String url) {
+        final com.android.volley.RequestQueue queue = Volley.newRequestQueue(RoomActivity.this);
+
+        System.out.println(url);
+
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(final String response) {
+
+                        System.out.println(response);
+
+                        if (response.equals("\"OK\"")) {
+                            Toast toast = Toast.makeText(RoomActivity.this, "Invitation sent",
+                                    Toast.LENGTH_SHORT);
+
+                            toast.setGravity(Gravity.TOP| Gravity.CENTER_HORIZONTAL, 0, 0);
+
+                            toast.show();
+                        } else {
+                            Toast toast = Toast.makeText(RoomActivity.this, "User doesn't exist",
+                                    Toast.LENGTH_SHORT);
+
+                            toast.setGravity(Gravity.TOP| Gravity.CENTER_HORIZONTAL, 0, 0);
+
+                            toast.show();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+
+                System.out.println("That didn't work!");
+            }
+        });
+
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest);
+    }
+
     private void initializeRoom() {
+
         TextView ownerView = (TextView) findViewById(R.id.owner_image_view);
 
         ownerView.setText("Pending");
@@ -207,6 +340,10 @@ public class RoomActivity extends AppCompatActivity implements IGameEventsListen
         nameView3.setText("Pending");
         nameView4.setText("Pending");
         nameView5.setText("Pending");
+
+        FloatingActionsMenu circleImageView = (FloatingActionsMenu) findViewById(R.id.invitefriends_button);
+
+        circleImageView.setVisibility(View.VISIBLE);
     }
 
     private void updateViews(String ownerName, ImageView imageView1, TextView nameView1, JSONObject jsonObject) {

@@ -29,9 +29,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
 public class WelcomeActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener,
         View.OnClickListener {
@@ -59,24 +56,6 @@ public class WelcomeActivity extends AppCompatActivity implements
         getSupportActionBar().hide();
     }
 
-    private void generateHashKey(){
-        try {
-            PackageInfo info = getPackageManager().getPackageInfo(
-                    "com.example.khrak.wordgame",
-                    PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-                System.out.println(Base64.encodeToString(md.digest(), Base64.DEFAULT));
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-
-        } catch (NoSuchAlgorithmException e) {
-
-        }
-    }
-
     public void aboutClicked(View view) {
 
         Intent intent = new Intent(this, AboutActivity.class);
@@ -89,7 +68,6 @@ public class WelcomeActivity extends AppCompatActivity implements
 
         startActivity(intent);
     }
-
 
     public void multiplayerClicked(View view) {
 

@@ -230,6 +230,7 @@
                 android:elevation="20dp"
                 android:text="WAITING TO START"
                 android:textColor="#DCA32B"
+                android:background="@drawable/button_white"
                 android:textStyle="bold"/>
 
             <Button
@@ -247,7 +248,7 @@
     </RelativeLayout>
 
     <com.getbase.floatingactionbutton.FloatingActionsMenu
-        android:id="@+id/invite_button"
+        android:id="@+id/invitefriends_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -259,9 +260,6 @@
         fab:fab_labelStyle="@style/menu_labels_style"
         android:layout_marginBottom="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginEnd="16dp">
-
-    </com.getbase.floatingactionbutton.FloatingActionsMenu>
-
+        android:layout_marginEnd="16dp"/>
 
 </RelativeLayout>

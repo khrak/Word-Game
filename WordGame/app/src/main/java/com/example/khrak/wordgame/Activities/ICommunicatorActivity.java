@@ -1,8 +1,10 @@
 package com.example.khrak.wordgame.Activities;
 
+import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -11,6 +13,7 @@ import android.util.Log;
 
 import com.example.khrak.wordgame.communication.CommunicationManager;
 import com.example.khrak.wordgame.communication.IGameEventsListener;
+import com.example.khrak.wordgame.communication.NetworkStateReceiver;
 import com.example.khrak.wordgame.communication.SignalRService;
 import com.example.khrak.wordgame.communication.models.GameEvent;
 
@@ -18,16 +21,21 @@ import com.example.khrak.wordgame.communication.models.GameEvent;
  * Created by melia on 8/4/2017.
  */
 
-public abstract class ICommunicatorActivity extends AppCompatActivity implements IGameEventsListener{
+public abstract class ICommunicatorActivity extends AppCompatActivity implements IGameEventsListener, NetworkStateReceiver.NetworkStateReceiverListener{
 
     private final Context mContext = this;
     private SignalRService mService;
     private boolean mBound = false;
+    private NetworkStateReceiver networkStateReceiver;
+
+    ProgressDialog progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        networkStateReceiver = new NetworkStateReceiver();
+        networkStateReceiver.addListener(this);
+        this.registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
     }
 
     private void bindCommunicationServer(){
@@ -61,8 +69,39 @@ public abstract class ICommunicatorActivity extends AppCompatActivity implements
 
     @Override
     protected void onStop() {
-
         super.onStop();
+    }
+
+    @Override
+    protected  void onDestroy(){
+        super.onDestroy();
+        networkStateReceiver.removeListener(this);
+        this.unregisterReceiver(networkStateReceiver);
+    }
+
+    @Override
+    public void networkAvailable() {
+        Log.d("InternetState", "I'm in, baby!");
+        if (!mBound){
+            bindCommunicationServer();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run()
+                {
+                    if (progress != null)
+                        progress.dismiss();
+                    progress = null;
+                }
+            });
+        }
+    }
+
+    @Override
+    public void networkUnavailable() {
+        Log.d("InternetState", "I'm dancing with myself");
+        unBindCommunicationService();
+        progress = ProgressDialog.show(this, "Connection Lost",
+                "Connection To server...", true);
     }
 
     /**

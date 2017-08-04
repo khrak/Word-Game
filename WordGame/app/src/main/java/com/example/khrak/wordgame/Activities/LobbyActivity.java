@@ -24,6 +24,7 @@ import com.example.khrak.wordgame.Adapters.LobbyAdapter;
 import com.example.khrak.wordgame.Model.Room;
 import com.example.khrak.wordgame.R;
 import com.example.khrak.wordgame.communication.CommunicationManager;
+import com.example.khrak.wordgame.communication.models.GameEvent;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -39,7 +40,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 
-public class LobbyActivity extends AppCompatActivity implements
+public class LobbyActivity extends ICommunicatorActivity implements
         GoogleApiClient.OnConnectionFailedListener,
         View.OnClickListener {
 
@@ -148,6 +149,11 @@ public class LobbyActivity extends AppCompatActivity implements
         }, LobbyUpdateDelay);
 
         super.onResume();
+    }
+
+    @Override
+    public void processGameEvent(GameEvent event) {
+        return;
     }
 
     @Override

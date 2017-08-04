@@ -458,4 +458,9 @@ public class RoomActivity extends ICommunicatorActivity {
             drawRoom(roomId, CommunicationManager.getInstance().getUserName());
         }
     }
+
+    @Override
+    public void connectionToServerEstabilished() {
+        drawRoom(roomId, CommunicationManager.getInstance().getUserName());
+    }
 }

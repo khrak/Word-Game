@@ -13,4 +13,5 @@ public class Player {
     public Card[] cards;
     public String guessedWord;
     public boolean hasSubmittedWord;
+    public int bet;
 }

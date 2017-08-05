@@ -14,7 +14,7 @@ public class WordGame {
     public WordGame(int gameId, IWordGameListener listener, boolean isOfflineGame){
         this.gameEventsListener = listener;
         if (isOfflineGame){
-            gameProcessor = new OfflineGameEventProcessor(this);
+            gameProcessor = new OfflineGameEventProcessor(gameId, this);
         }else{
             gameProcessor = new LiveGameEventProcessor(gameId, this);
         }

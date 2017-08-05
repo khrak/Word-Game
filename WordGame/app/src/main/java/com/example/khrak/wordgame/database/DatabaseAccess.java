@@ -101,6 +101,30 @@ public class DatabaseAccess {
 
         return false;
     }
+
+    private boolean checkIsSameWords(String likeWord, String curWord){
+        for (int i = 0; i < likeWord.length(); i++){
+            if (likeWord.charAt(i) == '_')
+                continue;
+            if (likeWord.charAt(i) != curWord.charAt(i))
+                return false;
+        }
+        return true;
+    }
+
+    public boolean isPossibleWord(String likeWord) {
+
+        Cursor cursor = database.rawQuery("select * from words where words.word like '" + likeWord + "%'", null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            String curWord = cursor.getString(1);
+            if (checkIsSameWords(likeWord, curWord))
+                return true;
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return false;
+    }
 /*
     private Message getMessagesFromCursor(Cursor cursor) {
         Message curMessage = new Message();

@@ -62,10 +62,8 @@ public class GameActivity extends AppCompatActivity implements IWordGameListener
         System.out.println("clicked");
     }
 
-
-
     @Override
     public void drawGame(GameModel mGameModel) {
-        System.out.println("Draw Game Called" +  mGameModel.roundNumber);
+
     }
 }

@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorPrimary">
 
     <LinearLayout
@@ -169,7 +170,7 @@
     <LinearLayout
         android:id="@+id/board_to_fill"
         android:layout_below="@id/players_layout"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -261,29 +262,75 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/clear_text_button"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/board_to_fill"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/button"
-        android:elevation="20dp"
-        android:text="CLEAR"
-        android:textColor="#C0FFFFFF"
-        android:textStyle="bold"/>
+    <LinearLayout
+        android:id="@+id/buttons_layout"
+        android:padding="5dp"
+        android:orientation="horizontal"
+        android:layout_below="@id/board_to_fill"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_weight="1"
+            android:layout_width="150dp"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/clear_text_button"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/button"
+                android:layout_centerInParent="true"
+                android:text="CLEAR"
+                android:textColor="#C0FFFFFF"
+                android:textStyle="bold"/>
+        </RelativeLayout>
+
+        <com.github.lzyzsd.circleprogress.DonutProgress
+            android:minWidth="50dp"
+            android:minHeight="50dp"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/timeout_progress_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            custom:donut_inner_bottom_text_color="#DCA32B"
+            custom:donut_text_color="#DCA32B"
+            custom:donut_finished_color="#DCA32B"
+            custom:donut_progress="30"/>
+
+        <RelativeLayout
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:layout_width="150dp"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/submit_word_button"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/button"
+                android:layout_centerInParent="true"
+                android:text="CLEAR"
+                android:textColor="#C0FFFFFF"
+                android:textStyle="bold"/>
+        </RelativeLayout>
+
+    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/clear_text_button"
-        android:layout_marginTop="10dp"
+        android:layout_below="@id/buttons_layout"
+        android:layout_marginTop="5dp"
         android:background="@drawable/button"
-        android:layout_marginBottom="20dp">
+        android:layout_marginBottom="4dp">
 
         <GridView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:padding="15dp"
+            android:padding="10dp"
             android:background="@color/colorPrimary"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"

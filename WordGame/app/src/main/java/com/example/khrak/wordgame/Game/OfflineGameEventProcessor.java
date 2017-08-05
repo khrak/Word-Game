@@ -1,7 +1,9 @@
 package com.example.khrak.wordgame.Game;
 
 import android.os.health.PidHealthStats;
+import android.util.Log;
 
+import com.example.khrak.wordgame.AppMain;
 import com.example.khrak.wordgame.Model.CardScoringResult;
 import com.example.khrak.wordgame.Utils.CardGenerator;
 import com.example.khrak.wordgame.Utils.DatabaseWordHelper;
@@ -11,7 +13,9 @@ import com.example.khrak.wordgame.communication.models.WordGameUser;
 import com.example.khrak.wordgame.communication.models.WordSearchingFinished;
 import com.example.khrak.wordgame.communication.models.events.InGameEvent;
 import com.example.khrak.wordgame.communication.models.events.WordSearchFinishedEvent;
+import com.example.khrak.wordgame.database.DatabaseAccess;
 
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -166,7 +170,7 @@ public class OfflineGameEventProcessor extends AbstractGameEventsProcessor {
             computerCards[i] = mGameModel.cards.get(i);
         }
         computerCards[7] = mGameModel.players.get(1).cards[0];
-        computerCards[7] = mGameModel.players.get(1).cards[1];
+        computerCards[8] = mGameModel.players.get(1).cards[1];
         return computerCards;
     }
 
@@ -181,10 +185,13 @@ public class OfflineGameEventProcessor extends AbstractGameEventsProcessor {
                     mResultAlreadyFound = false;
                     goodSolutionsFoundNum = 0;
                     currentMaxScore = 0;
+                    DatabaseAccess.getInstance(AppMain.getContext()).open();
                     checkWord(computerCards, "", new boolean[9], 0, 0);
 
                 } catch (Exception e) {
                     e.printStackTrace();
+                }finally {
+                    DatabaseAccess.getInstance(AppMain.getContext()).close();
                 }
             }
         };
@@ -201,21 +208,23 @@ public class OfflineGameEventProcessor extends AbstractGameEventsProcessor {
         if (curIndx == 9)
             return;
 
-        if (DatabaseWordHelper.wordExists(soFar))
+        if (DatabaseWordHelper.wordExistsNotThreadSafe(soFar))
         {
             if(curScore > currentMaxScore){
                 currentMaxScore = curScore;
                 goodSolutionsFoundNum++;
+                Log.w("Searching", "Found Word!! score = " + curScore);
                 if (goodSolutionsFoundNum >= GameConstants.LeveAlgorithmGoodSolutionsStop[gameLevel]){
                     addPlayerForScore(GameConstants.ComputerPlayerName, currentMaxScore, soFar);
                     mResultAlreadyFound = true;
+
                     return;
                 }
             }
         }
 
         if (soFar.length() >= GameConstants.MinWordLengthToCheckExistance){
-            if (!DatabaseWordHelper.isPossibleWord(soFar))
+            if (!DatabaseWordHelper.isPossibleWordNotThreadSafe(soFar))
                 return;
         }
 

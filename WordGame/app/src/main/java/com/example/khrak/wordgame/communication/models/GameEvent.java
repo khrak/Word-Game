@@ -23,6 +23,10 @@ public class GameEvent<T> {
         return eventData;
     }
 
+    public void setEventData(T eventData){
+        this.eventData = eventData;
+    }
+
     public boolean IsSameEvent(String eventKey){
         return this.eventKey.equals(eventKey);
     }

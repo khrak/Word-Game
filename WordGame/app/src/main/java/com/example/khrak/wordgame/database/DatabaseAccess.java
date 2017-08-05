@@ -92,13 +92,10 @@ public class DatabaseAccess {
         cursor.moveToFirst();
 
         if (!cursor.isAfterLast()) {
-            int val = cursor.getInt(0);
-
            if (cursor.getInt(0) == 1) {
                return true;
            }
         }
-
         return false;
     }
 

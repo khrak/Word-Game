@@ -1,6 +1,7 @@
 package com.example.khrak.wordgame.Utils;
 
 import android.content.Context;
+import android.provider.ContactsContract;
 
 import com.example.khrak.wordgame.AppMain;
 import com.example.khrak.wordgame.Game.Card;
@@ -14,7 +15,8 @@ import com.example.khrak.wordgame.database.DatabaseAccess;
 public class DatabaseWordHelper {
 
     public static boolean wordExists(String word) {
-        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(AppMain.getContext());
+        word = LetterTranslator.convertStringToEnglish(word);
+        DatabaseAccess databaseAccess = new DatabaseAccess(AppMain.getContext());
         databaseAccess.open();
         boolean result = false;
         if (databaseAccess.wordExists(word)) {
@@ -47,7 +49,24 @@ public class DatabaseWordHelper {
      * checks if there exists any word starting from so far
      * */
     public static boolean isPossibleWord(String soFar) {
+        soFar = LetterTranslator.convertStringToEnglish(soFar);
+        String likeWord = "";
+        for (int i = 0; i < soFar.length(); i++){
+            if (soFar.charAt(i) == '*')
+                likeWord += soFar.charAt(i);
+            else
+                likeWord += '_';
+        }
 
+        DatabaseAccess databaseAccess = new DatabaseAccess(AppMain.getContext());
+        databaseAccess.open();
+        boolean result = databaseAccess.isPossibleWord(likeWord);
+        databaseAccess.close();
+        return result;
+    }
+
+    public static boolean isPossibleWordNotThreadSafe(String soFar){
+        soFar = LetterTranslator.convertStringToEnglish(soFar);
         String likeWord = "";
         for (int i = 0; i < soFar.length(); i++){
             if (soFar.charAt(i) == '*')
@@ -57,9 +76,17 @@ public class DatabaseWordHelper {
         }
 
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(AppMain.getContext());
-        databaseAccess.open();
         boolean result = databaseAccess.isPossibleWord(likeWord);
-        databaseAccess.close();
+        return result;
+    }
+
+    public static boolean wordExistsNotThreadSafe(String word) {
+        word = LetterTranslator.convertStringToEnglish(word);
+        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(AppMain.getContext());
+        boolean result = false;
+        if (databaseAccess.wordExists(word)) {
+            result = true;
+        }
         return result;
     }
 }

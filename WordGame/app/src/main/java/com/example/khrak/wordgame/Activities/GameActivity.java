@@ -26,7 +26,9 @@ import com.example.khrak.wordgame.Game.WordGame;
 import com.example.khrak.wordgame.R;
 import com.example.khrak.wordgame.communication.models.GameEvent;
 import com.example.khrak.wordgame.communication.models.GameEventFactory;
+import com.example.khrak.wordgame.communication.models.WordSearchingFinished;
 import com.example.khrak.wordgame.communication.models.events.InGameEvent;
+import com.example.khrak.wordgame.communication.models.events.WordSearchFinishedEvent;
 import com.github.lzyzsd.circleprogress.DonutProgress;
 
 import java.util.ArrayList;
@@ -37,6 +39,7 @@ public class GameActivity extends AppCompatActivity implements IWordGameListener
 
     private ArrayList<Button> clickedButtons = new ArrayList<>();
     private LinearLayout boardLayout;
+    private Thread mTimerThread;
 
 
     @Override
@@ -96,7 +99,13 @@ public class GameActivity extends AppCompatActivity implements IWordGameListener
     }
 
     public void submitWord(View view) {
-        String result = "";
+
+        if (mTimerThread != null){
+            mTimerThread.interrupt();
+            mTimerThread = null;
+        }
+        sendPlayerChooseWordEvent(getSelectedCards());
+        /*String result = "";
         int score = 0;
 
         for (int i = 0; i < clickedButtons.size(); i++) {
@@ -107,7 +116,17 @@ public class GameActivity extends AppCompatActivity implements IWordGameListener
             score += Integer.parseInt(tag);
         }
 
-        System.out.println(result + " with score " + score);
+        System.out.println(result + " with score " + score); */
+    }
+
+    private Card[] getSelectedCards(){
+        Card[] cards = new Card[clickedButtons.size()];
+        for (int i = 0; i < clickedButtons.size(); i++) {
+            String text = clickedButtons.get(i).getText().toString();
+            cards[i] = new Card(text, Integer.parseInt((String) clickedButtons.get(i).getTag()));
+        }
+        return cards;
+
     }
 
     public void clearClicked(View view) {
@@ -133,10 +152,25 @@ public class GameActivity extends AppCompatActivity implements IWordGameListener
         }
     }
 
+    private void playerDontChooseWord(){
+        sendPlayerChooseWordEvent(new Card[0]);
+    }
+
+    private void sendPlayerChooseWordEvent(Card[] cards){
+        WordSearchFinishedEvent finishSearchingEvent = new WordSearchFinishedEvent();
+        finishSearchingEvent.eventAuthor = GameConstants.OfflinePlayerName;
+        WordSearchingFinished dataModel = new WordSearchingFinished();
+        dataModel.foundWord = cards;
+        finishSearchingEvent.setEventData(dataModel);
+        mGame.sendGameEvent(finishSearchingEvent);
+    }
+
     @Override
     public void drawGame(final GameModel mGameModel) {
 
-        new Thread(new Runnable() {
+        System.out.println("Game Mode = " + mGameModel.state);
+
+        mTimerThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 final DonutProgress progress = (DonutProgress) findViewById(R.id.timeout_progress_view);
@@ -144,10 +178,19 @@ public class GameActivity extends AppCompatActivity implements IWordGameListener
                 int value = 0;
 
                 while (value < 100) {
+
+                    if(Thread.interrupted()){
+                        return;
+                    }
+
                     try {
                         Thread.sleep(400);
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                       // e.printStackTrace();
+                    }
+
+                    if(Thread.interrupted()){
+                        return;
                     }
 
                     value++;
@@ -159,8 +202,16 @@ public class GameActivity extends AppCompatActivity implements IWordGameListener
                         }
                     });
                 }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                       playerDontChooseWord();
+                    }
+                });
+
             }
-        }).start();
+        });
+        mTimerThread.start();
 
         runOnUiThread(new Runnable() {
             @Override

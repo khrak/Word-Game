@@ -62,18 +62,8 @@ public class DatabaseAccess {
      *
      * @return a List of quotes
      */
-     /*public List<User> getFriends() {
-        List<User> friends = new ArrayList<>();
-        Cursor cursor = database.rawQuery("SELECT * FROM users", null);
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            friends.add(getFriendFromCursor(cursor));
-            cursor.moveToNext();
-        }
-        cursor.close();
-        return friends;
-    }
 
+    /*
     public void saveMessage(Message message){
         ContentValues values = new ContentValues();
         values.put("chat_to", message.chatTo);
@@ -94,20 +84,24 @@ public class DatabaseAccess {
         c.about = cursor.getString(5);
         return c;
     }
+*/
+    public boolean wordExists(String word){
+        Cursor cursor = database.rawQuery(
+                "select exists (select * from words where words.word='" + word + "')", null);
 
-    public List<Message> getChatMessagesTo(int id){
-        List<Message> chatMessages = new ArrayList<>();
-        database.execSQL("update chat_history set status = 0 where chat_to = " + id);
-        Cursor cursor = database.rawQuery("select * from chat_history where chat_to = " + id, null);
         cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            chatMessages.add(getMessagesFromCursor(cursor));
-            cursor.moveToNext();
+
+        if (!cursor.isAfterLast()) {
+            int val = cursor.getInt(0);
+
+           if (cursor.getInt(0) == 1) {
+               return true;
+           }
         }
 
-        return chatMessages;
+        return false;
     }
-
+/*
     private Message getMessagesFromCursor(Cursor cursor) {
         Message curMessage = new Message();
         curMessage.chatTo = cursor.getInt(1);

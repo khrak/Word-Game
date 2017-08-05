@@ -9,12 +9,18 @@ import android.widget.GridView;
 
 import com.example.khrak.wordgame.Adapters.GridViewAdapter;
 import com.example.khrak.wordgame.Game.Card;
+import com.example.khrak.wordgame.Game.GameModel;
+import com.example.khrak.wordgame.Game.IWordGameListener;
+import com.example.khrak.wordgame.Game.WordGame;
 import com.example.khrak.wordgame.R;
+import com.example.khrak.wordgame.communication.models.GameEvent;
+import com.example.khrak.wordgame.communication.models.GameEventFactory;
+import com.example.khrak.wordgame.communication.models.events.InGameEvent;
 
 import java.util.ArrayList;
 
-public class GameActivity extends AppCompatActivity {
-
+public class GameActivity extends AppCompatActivity implements IWordGameListener {
+    WordGame mGame;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +44,13 @@ public class GameActivity extends AppCompatActivity {
         list.add(new Card("ა", 5));
 
         gridView.setAdapter(new GridViewAdapter(this, list));
+        createGame();
+    }
+
+    private void createGame(){
+        mGame = new WordGame(0, this, false);
+        GameEvent startGameEvent = new InGameEvent(GameEventFactory.EVENT_GAME_START);
+        mGame.sendGameEvent(startGameEvent);
     }
 
     public void symbolClicked(View view) {
@@ -46,5 +59,12 @@ public class GameActivity extends AppCompatActivity {
 
         System.out.println(button.getText() + " " + button.getTag());
         System.out.println("clicked");
+    }
+
+
+
+    @Override
+    public void drawGame(GameModel mGameModel) {
+
     }
 }

@@ -53,7 +53,7 @@
         <activity android:name=".Activities.LobbyActivity"/>
         <activity android:name=".Activities.ChooseUsernameActivity"/>
         <activity android:name=".Activities.NotificationHandlerActivity"/>
-        <activity android:name=".Activities.GameActivity"/>
+        <activity android:name=".Activities.GameActivity" android:screenOrientation="portrait"/>
         <activity android:name=".Activities.RoomActivity" android:screenOrientation="portrait"/>
         <activity android:name=".TestActivity"/>
 

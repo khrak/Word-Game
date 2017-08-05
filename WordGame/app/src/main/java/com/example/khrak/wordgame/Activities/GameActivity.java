@@ -1,6 +1,7 @@
 package com.example.khrak.wordgame.Activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.RippleDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 
 import com.example.khrak.wordgame.Adapters.GridViewAdapter;
 import com.example.khrak.wordgame.Game.Card;
+import com.example.khrak.wordgame.Game.GameConstants;
 import com.example.khrak.wordgame.Game.GameModel;
 import com.example.khrak.wordgame.Game.IWordGameListener;
 import com.example.khrak.wordgame.Game.Player;
@@ -25,6 +27,7 @@ import com.example.khrak.wordgame.R;
 import com.example.khrak.wordgame.communication.models.GameEvent;
 import com.example.khrak.wordgame.communication.models.GameEventFactory;
 import com.example.khrak.wordgame.communication.models.events.InGameEvent;
+import com.github.lzyzsd.circleprogress.DonutProgress;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,11 +35,17 @@ import java.util.List;
 public class GameActivity extends AppCompatActivity implements IWordGameListener {
     WordGame mGame;
 
+    private ArrayList<Button> clickedButtons = new ArrayList<>();
+    private LinearLayout boardLayout;
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.game_activity);
+
+        boardLayout = (LinearLayout) findViewById(R.id.board_to_fill);
 
         getSupportActionBar().hide();
 
@@ -68,23 +77,53 @@ public class GameActivity extends AppCompatActivity implements IWordGameListener
 
         Button button = (Button) view;
 
-        System.out.println(button.getText() + " " + button.getTag());
-        System.out.println("clicked");
+        System.out.println(button.getBackground());
+
+        if (clickedButtons.contains(button)) {
+            System.out.println("Already clicked");
+        } else {
+            button.setBackgroundColor(Integer.parseInt("000000"));
+
+            System.out.println(button.getText() + " " + button.getTag());
+            System.out.println("clicked");
+
+            Button boardButton = (Button) boardLayout.getChildAt(clickedButtons.size());
+
+            boardButton.setText(button.getText().toString());
+
+            clickedButtons.add(button);
+        }
     }
 
-    @Override
-    public void drawGame(GameModel mGameModel) {
+    public void submitWord(View view) {
+        String result = "";
+        int score = 0;
 
-        LinearLayout playersLayout = (LinearLayout) findViewById(R.id.players_layout);
+        for (int i = 0; i < clickedButtons.size(); i++) {
+            result += clickedButtons.get(i).getText().toString();
 
-        for (Player player : mGameModel.players) {
-            String username = player.wordGameUser.UserName;
-            String money = "" + player.money;
-            int iconid = player.wordGameUser.IconId;
+            String tag = (String) clickedButtons.get(i).getTag();
 
-            addPlayer(playersLayout, username, money, iconid);
+            score += Integer.parseInt(tag);
         }
 
+        System.out.println(result + " with score " + score);
+    }
+
+    public void clearClicked(View view) {
+
+        for (int i = 0; i < clickedButtons.size(); i++) {
+            Button button = clickedButtons.get(i);
+
+            button.setBackgroundResource(android.R.drawable.btn_default);
+        }
+
+        clickedButtons.clear();
+
+        clearBoard();
+    }
+
+    private void clearBoard() {
         LinearLayout boardLayout = (LinearLayout) findViewById(R.id.board_to_fill);
 
         for (int i = 0; i < boardLayout.getChildCount(); i++) {
@@ -92,23 +131,72 @@ public class GameActivity extends AppCompatActivity implements IWordGameListener
 
             button.setText("");
         }
+    }
 
-        GridView gridView = (GridView) findViewById(R.id.keyboard_gridview);
+    @Override
+    public void drawGame(final GameModel mGameModel) {
 
-        List<Card> cards = mGameModel.cards;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final DonutProgress progress = (DonutProgress) findViewById(R.id.timeout_progress_view);
 
-        ArrayList<Card> list = new ArrayList<>(cards);
+                int value = 0;
 
-        Player player = mGameModel.players.get(0);
+                while (value < 100) {
+                    try {
+                        Thread.sleep(400);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
 
-        Card[] twoCards = player.cards;
+                    value++;
 
-        list.add(twoCards[0]);
-        list.add(twoCards[1]);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            progress.setProgress(progress.getProgress() + 1);
+                        }
+                    });
+                }
+            }
+        }).start();
 
-        GridViewAdapter adapter = new GridViewAdapter(this, list);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                LinearLayout playersLayout = (LinearLayout) findViewById(R.id.players_layout);
 
-        gridView.setAdapter(adapter);
+                for (Player player : mGameModel.players) {
+                    String username = player.wordGameUser.UserName;
+                    String money = "" + player.money;
+                    int iconid = player.wordGameUser.IconId;
+
+                    if (!username.equals(GameConstants.OfflinePlayerName)) {
+                        addPlayer(playersLayout, username, money, iconid);
+                    }
+                }
+
+                clearBoard();
+
+                final GridView gridView = (GridView) findViewById(R.id.keyboard_gridview);
+
+                List<Card> cards = mGameModel.cards;
+
+                ArrayList<Card> list = new ArrayList<>(cards);
+
+                Player player = mGameModel.players.get(0);
+
+                Card[] twoCards = player.cards;
+
+                list.add(twoCards[0]);
+                list.add(twoCards[1]);
+
+                GridViewAdapter adapter = new GridViewAdapter(GameActivity.this, list);
+
+                gridView.setAdapter(adapter);
+            }
+        });
     }
 
     private void addPlayer(LinearLayout playersLayout, String username, String money, int iconid) {
@@ -148,6 +236,7 @@ public class GameActivity extends AppCompatActivity implements IWordGameListener
             R.drawable.avatar_icon6,
             R.drawable.avatar_icon7,
             R.drawable.avatar_icon8,
-            R.drawable.avatar_icon9
+            R.drawable.avatar_icon9,
+            R.drawable.avatar_icon10
     };
 }

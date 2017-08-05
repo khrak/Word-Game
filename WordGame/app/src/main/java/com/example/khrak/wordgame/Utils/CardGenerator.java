@@ -20,22 +20,39 @@ public class CardGenerator {
 
     public static Card[] getRandomCards(int cardsNum){
 
+        int vowelCount = (int)(cardsNum * 0.4);
+
         Card[] cards = new Card[cardsNum];
 
-        for (int i = 0; i < cardsNum; i++) {
-            int score = randomInRange(0, 9);
+        for (int i = 0; i < vowelCount; i++) {
+            int score = randomInRange(1, 9);
+            int symbolIndex = randomInRange(0, 4);
+
+            cards[i] = new Card("" + vowels[symbolIndex], score);
+        }
+
+        for (int i = vowelCount; i < cardsNum; i++) {
+            int score = randomInRange(1, 9);
             int symbolIndex = randomInRange(0, 33);
 
             char ch = 'ა';
 
             if (symbolIndex == 33) {
                 ch = '*';
+                score = 0;
             } else ch += symbolIndex;
 
             cards[i] = new Card("" + ch, score);
         }
 
         return cards;
+    }
+
+    private static char[] vowels = new char[]{'ა', 'ე', 'ი', 'ო', 'უ'};
+
+    private boolean isvowel(char ch) {
+        return (ch == 'ა' || ch == 'ე'
+                || ch == 'ი' || ch == 'ო' || ch == 'უ');
     }
 
     private static int randomInRange(int min, int max) {

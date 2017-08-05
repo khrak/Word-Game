@@ -11,8 +11,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.khrak.wordgame.Game.Card;
 import com.example.khrak.wordgame.R;
 import com.example.khrak.wordgame.TestActivity;
+import com.example.khrak.wordgame.Utils.CardGenerator;
 import com.example.khrak.wordgame.communication.CommunicationManager;
 import com.facebook.Profile;
 import com.google.android.gms.auth.api.Auth;
@@ -49,6 +51,13 @@ public class WelcomeActivity extends AppCompatActivity implements
         setContentView(R.layout.welcome_activity);
 
         getSupportActionBar().hide();
+
+
+        Card[] cards = CardGenerator.getRandomCards(100);
+
+        for (int i = 0; i < cards.length; i++) {
+            System.out.println(cards[i].symbol + " " + cards[i].score);
+        }
     }
 
     public void aboutClicked(View view) {

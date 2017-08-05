@@ -56,86 +56,95 @@ public class LobbyActivity extends ICommunicatorActivity implements
 
         System.out.println("lobby started");
 
-        mGoogleApiClient = WelcomeActivity.mGoogleApiClient;
+        if (getIntent().getStringExtra("gotoroom") != null) {
+            try {
+                joinRoom(new Room("", getIntent().getStringExtra("roomid"), "", 0), CommunicationManager.getInstance().getUserName());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
 
-        setContentView(R.layout.lobby_activity);
+            mGoogleApiClient = WelcomeActivity.mGoogleApiClient;
 
-        getSupportActionBar().hide();
+            setContentView(R.layout.lobby_activity);
 
-        final String username = getIntent().getStringExtra("username");
-        System.out.println("Test Username = " + username);
-        drawRooms(CommunicationManager.getInstance().getUserName());
+            getSupportActionBar().hide();
 
-        final FloatingActionButton createRoom = (FloatingActionButton) findViewById(R.id.createroom_button);
+            final String username = getIntent().getStringExtra("username");
+            System.out.println("Test Username = " + username);
+            drawRooms(CommunicationManager.getInstance().getUserName());
 
-        createRoom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            final FloatingActionButton createRoom = (FloatingActionButton) findViewById(R.id.createroom_button);
 
-                final Dialog dialog = new Dialog(LobbyActivity.this);
+            createRoom.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    final Dialog dialog = new Dialog(LobbyActivity.this);
 
-                dialog.setContentView(R.layout.createroom_dialog);
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-                final EditText editText = (EditText) dialog.findViewById(R.id.editText);
-                Button btnSave          = (Button) dialog.findViewById(R.id.save);
-                Button btnCancel        = (Button) dialog.findViewById(R.id.cancel);
+                    dialog.setContentView(R.layout.createroom_dialog);
 
-                final RadioButton privateButton = (RadioButton) dialog.findViewById(R.id.radio_private);
+                    final EditText editText = (EditText) dialog.findViewById(R.id.editText);
+                    Button btnSave = (Button) dialog.findViewById(R.id.save);
+                    Button btnCancel = (Button) dialog.findViewById(R.id.cancel);
 
-                dialog.show();
+                    final RadioButton privateButton = (RadioButton) dialog.findViewById(R.id.radio_private);
 
-                btnCancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
+                    dialog.show();
 
-                btnSave.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                    btnCancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
 
-                        String roomName = editText.getText().toString();
+                    btnSave.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
 
-                        String privacy = "public";
+                            String roomName = editText.getText().toString();
 
-                        if (privateButton.isChecked()) {
-                            privacy = "private";
+                            String privacy = "public";
+
+                            if (privateButton.isChecked()) {
+                                privacy = "private";
+                            }
+
+                            addRoom(roomName, privacy);
+
+                            dialog.dismiss();
+                        }
+                    });
+                }
+            });
+
+            final FloatingActionButton logoutButton = (FloatingActionButton) findViewById(R.id.logout_button);
+
+            logoutButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    try {
+                        if (signedWithGoogle()) {
+                            googleSignOut();
                         }
 
-                        addRoom(roomName, privacy);
-
-                        dialog.dismiss();
-                    }
-                });
-            }
-        });
-
-        final FloatingActionButton logoutButton = (FloatingActionButton) findViewById(R.id.logout_button);
-
-        logoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                try {
-                    if (signedWithGoogle()) {
-                        googleSignOut();
+                        if (SignUpActivity.signedWithFacebook()) {
+                            SignUpActivity.facebookSignOut();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
 
-                    if (SignUpActivity.signedWithFacebook()) {
-                        SignUpActivity.facebookSignOut();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    Intent intent = new Intent(LobbyActivity.this, WelcomeActivity.class);
+
+                    startActivity(intent);
                 }
-
-                Intent intent = new Intent(LobbyActivity.this, WelcomeActivity.class);
-
-                startActivity(intent);
-            }
-        });
+            });
+        }
     }
 
     @Override

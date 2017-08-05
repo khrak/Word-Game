@@ -1,6 +1,7 @@
 package com.example.khrak.wordgame.Adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -70,6 +71,16 @@ public class ScoreboardAdapter extends BaseAdapter {
         holder.guessedword.setText(item.guessedWord);
         holder.profileImage.setImageResource(avatars[item.userimage]);
         holder.score.setText("" + item.score);
+
+        try {
+            if (item.winner) {
+                listItem.setBackgroundColor(Color.parseColor("#DCA32B"));
+            } else {
+                listItem.setBackgroundColor(Color.parseColor("#000000"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return listItem;
     }

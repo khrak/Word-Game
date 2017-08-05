@@ -8,10 +8,12 @@ public class ScoreboardItem {
     public String guessedWord;
     public int score;
     public int userimage;
+    public boolean winner;
 
-    public ScoreboardItem(String guessedWord, int score, int userimage) {
+    public ScoreboardItem(String guessedWord, int score, int userimage, boolean winner) {
         this.guessedWord = guessedWord;
         this.score = score;
         this.userimage = userimage;
+        this.winner = winner;
     }
 }

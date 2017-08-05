@@ -1,29 +1,39 @@
 package com.example.khrak.wordgame.Activities;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.RippleDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.khrak.wordgame.Adapters.GridViewAdapter;
+import com.example.khrak.wordgame.Adapters.ScoreboardAdapter;
 import com.example.khrak.wordgame.Game.Card;
 import com.example.khrak.wordgame.Game.GameConstants;
 import com.example.khrak.wordgame.Game.GameModel;
+import com.example.khrak.wordgame.Game.GameStates;
 import com.example.khrak.wordgame.Game.IWordGameListener;
 import com.example.khrak.wordgame.Game.Player;
 import com.example.khrak.wordgame.Game.WordGame;
+import com.example.khrak.wordgame.Model.ScoreboardItem;
 import com.example.khrak.wordgame.R;
+import com.example.khrak.wordgame.TestActivity;
 import com.example.khrak.wordgame.communication.models.GameEvent;
 import com.example.khrak.wordgame.communication.models.GameEventFactory;
 import com.example.khrak.wordgame.communication.models.WordSearchingFinished;
@@ -33,6 +43,7 @@ import com.github.lzyzsd.circleprogress.DonutProgress;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadFactory;
 
 public class GameActivity extends AppCompatActivity implements IWordGameListener {
     WordGame mGame;
@@ -40,7 +51,6 @@ public class GameActivity extends AppCompatActivity implements IWordGameListener
     private ArrayList<Button> clickedButtons = new ArrayList<>();
     private LinearLayout boardLayout;
     private Thread mTimerThread;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -100,10 +110,13 @@ public class GameActivity extends AppCompatActivity implements IWordGameListener
 
     public void submitWord(View view) {
 
+        submitted = true;
+
         if (mTimerThread != null){
-            mTimerThread.interrupt();
+//            mTimerThread.interrupt();
             mTimerThread = null;
         }
+
         sendPlayerChooseWordEvent(getSelectedCards());
         /*String result = "";
         int score = 0;
@@ -128,6 +141,8 @@ public class GameActivity extends AppCompatActivity implements IWordGameListener
         return cards;
 
     }
+
+    private boolean submitted = false;
 
     public void clearClicked(View view) {
 
@@ -170,26 +185,181 @@ public class GameActivity extends AppCompatActivity implements IWordGameListener
 
         System.out.println("Game Mode = " + mGameModel.state);
 
+        if (mGameModel.state == GameStates.GAME_PENDING) {
+            drawPendingGame(mGameModel);
+        }
+
+        if (mGameModel.state == GameStates.GAME_BETTING_STARTED) {
+            drawBetting(mGameModel);
+        }
+
+        if (mGameModel.state == GameStates.GAME_BETTING_FINISHED) {
+            drawFinish(mGameModel);
+        }
+    }
+
+    private void drawFinish(final GameModel mGameModel) {
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ArrayList<ScoreboardItem> list = new ArrayList<>();
+
+                Player player1 = mGameModel.players.get(0);
+                Player player2 = mGameModel.players.get(1);
+
+                boolean Iwon = player1.points > player2.points;
+
+                list.add(new ScoreboardItem(player1.guessedWord, player1.points, player1.wordGameUser.IconId, Iwon));
+                list.add(new ScoreboardItem(player2.guessedWord, player2.points, player2.wordGameUser.IconId, !Iwon));
+
+                ScoreboardAdapter adapter = new ScoreboardAdapter(GameActivity.this, list);
+
+                final Dialog dialog = new Dialog(GameActivity.this);
+
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+                dialog.setContentView(R.layout.scoreboard_dialog);
+
+                ListView listView = (ListView) dialog.findViewById(R.id.scoreboard_listview);
+
+                listView.setAdapter(adapter);
+
+                dialog.show();
+
+                // Hide after some seconds
+                final Handler handler  = new Handler();
+                final Runnable runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        if (dialog.isShowing()) {
+                            dialog.dismiss();
+
+                            scoreboardDismissed();
+                        }
+                    }
+                };
+
+                dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        handler.removeCallbacks(runnable);
+                    }
+                });
+
+                handler.postDelayed(runnable, 5000);
+            }
+        });
+    }
+
+    private void scoreboardDismissed() {
+        InGameEvent event = new InGameEvent(GameEventFactory.EVENT_GAME_ROUND_FINISH);
+
+        event.eventAuthor = GameConstants.OfflinePlayerName;
+
+        mGame.sendGameEvent(event);
+    }
+
+    private void drawBetting(final GameModel mGameModel) {
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                final Dialog dialog = new Dialog(GameActivity.this);
+
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+                dialog.setContentView(R.layout.betting_dialog);
+
+                Button button = (Button) dialog.findViewById(R.id.submit_bet_button);
+                TextView textview = (TextView) dialog.findViewById(R.id.user_score_view);
+                EditText editText = (EditText) dialog.findViewById(R.id.betting_edittext);
+
+                editText.setHint("Your score is " + mGameModel.players.get(0).points);
+
+                textview.setText("Bet range is " + (10 * mGameModel.roundNumber) + " to " +
+                        10 * (mGameModel.roundNumber + 1));
+
+                dialog.show();
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        try {
+                            Thread.sleep(10000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (dialog.isShowing()) {
+                                    dialog.dismiss();
+
+                                    submitBet(0);
+                                }
+                            }
+                        });
+                    }
+                }).start();
+
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        EditText editText = (EditText) dialog.findViewById(R.id.betting_edittext);
+
+                        try {
+                            int bet = Integer.parseInt(editText.getText().toString());
+
+                            dialog.dismiss();
+
+                            submitBet(bet);
+
+                        } catch (NumberFormatException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    private void submitBet(int bet) {
+        InGameEvent event = new InGameEvent(GameEventFactory.OFFLINE_EVENT_BETTING_FINISHED);
+
+        event.eventAuthor = GameConstants.OfflinePlayerName;
+        event.eventExtraData = bet;
+
+        mGame.sendGameEvent(event);
+    }
+
+    private void drawPendingGame(final GameModel mGameModel) {
+
+        submitted = false;
+
         mTimerThread = new Thread(new Runnable() {
             @Override
             public void run() {
+
                 final DonutProgress progress = (DonutProgress) findViewById(R.id.timeout_progress_view);
 
                 int value = 0;
 
                 while (value < 100) {
 
-                    if(Thread.interrupted()){
+                    if(submitted){
                         return;
                     }
 
                     try {
                         Thread.sleep(400);
                     } catch (InterruptedException e) {
-                       // e.printStackTrace();
+                         e.printStackTrace();
                     }
 
-                    if(Thread.interrupted()){
+                    if(submitted){
                         return;
                     }
 
@@ -202,15 +372,17 @@ public class GameActivity extends AppCompatActivity implements IWordGameListener
                         }
                     });
                 }
+
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                       playerDontChooseWord();
+                        playerDontChooseWord();
                     }
                 });
-
             }
         });
+
+
         mTimerThread.start();
 
         runOnUiThread(new Runnable() {

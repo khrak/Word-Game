@@ -1,16 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="10dp">
 
+    <TextView
+        android:id="@+id/user_score_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#DCA32B"
+        android:layout_centerHorizontal="true"
+        android:hint="Bet range is 10 to 20"
+        android:inputType="number"
+        android:textSize="18sp"
+        android:background="@android:color/transparent"
+        android:textColorHint="#DCA32B"/>
+
     <EditText
+        android:layout_marginTop="10dp"
         android:id="@+id/betting_edittext"
+        android:layout_below="@id/user_score_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="#DCA32B"
-        android:hint="Type your bet here"
+        android:hint="Your score is 21"
         android:inputType="number"
         android:background="@android:color/transparent"
         android:textColorHint="#DCA32B"

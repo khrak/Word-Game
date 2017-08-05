@@ -3,6 +3,8 @@ package com.example.khrak.wordgame.Utils;
 import android.content.Context;
 
 import com.example.khrak.wordgame.AppMain;
+import com.example.khrak.wordgame.Game.Card;
+import com.example.khrak.wordgame.Model.CardScoringResult;
 import com.example.khrak.wordgame.database.DatabaseAccess;
 
 /**
@@ -24,6 +26,13 @@ public class DatabaseWordHelper {
 
         databaseAccess.close();
 
+        return result;
+    }
+
+    public static CardScoringResult scoreCardsOrder(Card[] cards){
+        CardScoringResult result = new CardScoringResult();
+        result.foundWord = "";
+        result.resultScore = 0;
         return result;
     }
 }

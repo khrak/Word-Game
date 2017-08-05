@@ -12,4 +12,5 @@ public class Player {
     public int points;
     public Card[] cards;
     public String guessedWord;
+    public boolean hasSubmittedWord;
 }

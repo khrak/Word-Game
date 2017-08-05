@@ -12,7 +12,9 @@ public class GameEventFactory {
     public static final String EVENT_KET_INVITATION_RECEVED = "game.event.invitation.receved";
     public static final String EVENT_KET_PING = "game.event.ping";
     public static final String EVENT_GAME_START = "game.event.start";
-    public static final String EVENT_GAME_ROUND_FINISH = "game.event.round.finish";
+
+    public static final String OFFLINE_EVENT_MOVE_FINISHED = "offline.game.move.finished.event";
+    public static final String EVENT_GAME_ROUND_FINISH = "game.event.word.finish";
 
     public static GameEvent getGameEvent(EventResponse responce){
         switch (responce.eventKey){

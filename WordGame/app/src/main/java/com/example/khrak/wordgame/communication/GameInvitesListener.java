@@ -41,8 +41,8 @@ public class GameInvitesListener implements IGameEventsListener {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(R.drawable.app_icon)
-                        .setContentTitle("My notification")
-                        .setContentText("Hello World!");
+                        .setContentTitle("Invitation received")
+                        .setContentText(userName + " sent invitation");
 
         MediaPlayer mp = MediaPlayer.create(context, R.raw.sound);
         mp.start();

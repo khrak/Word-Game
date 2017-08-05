@@ -53,16 +53,24 @@ public class RoomActivity extends ICommunicatorActivity {
         leaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                thisActivity.finish();
-                //leaveRoom();
+               goToLobby();
             }
         });
         //attachGameEventListener();
     }
 
+    private void goToLobby() {
+
+        Intent intent = new Intent(RoomActivity.this, LobbyActivity.class);
+
+        this.finish();
+
+        startActivity(intent);
+    }
+
     @Override
     public void onBackPressed() {
-        this.finish();
+        goToLobby();
     }
 
     @Override
@@ -72,6 +80,7 @@ public class RoomActivity extends ICommunicatorActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         super.onDestroy();
     }
 
@@ -109,7 +118,6 @@ public class RoomActivity extends ICommunicatorActivity {
 
                             try {
                                 System.out.println("I'm here and I know it");
-                                Thread.sleep(1000000);
 
                                 JSONObject jsonObject = new JSONObject(response);
 
@@ -202,8 +210,6 @@ public class RoomActivity extends ICommunicatorActivity {
                                 }
 
                             } catch (JSONException e) {
-                                e.printStackTrace();
-                            } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
                         }

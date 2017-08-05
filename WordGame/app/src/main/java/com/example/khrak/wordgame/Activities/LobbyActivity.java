@@ -56,95 +56,87 @@ public class LobbyActivity extends ICommunicatorActivity implements
 
         System.out.println("lobby started");
 
-        if (getIntent().getStringExtra("gotoroom") != null) {
-            try {
-                joinRoom(new Room("", getIntent().getStringExtra("roomid"), "", 0), CommunicationManager.getInstance().getUserName());
-            } catch (Exception e) {
-                e.printStackTrace();
+        mGoogleApiClient = WelcomeActivity.mGoogleApiClient;
+
+        setContentView(R.layout.lobby_activity);
+
+        getSupportActionBar().hide();
+
+	final String username = CommunicationManager.getInstance().getUserName();        
+        System.out.println("Test Username = " + username);
+        
+	drawRooms(CommunicationManager.getInstance().getUserName());
+
+        final FloatingActionButton createRoom = (FloatingActionButton) findViewById(R.id.createroom_button);
+
+        createRoom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                final Dialog dialog = new Dialog(LobbyActivity.this);
+
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+                dialog.setContentView(R.layout.createroom_dialog);
+
+                final EditText editText = (EditText) dialog.findViewById(R.id.editText);
+                Button btnSave = (Button) dialog.findViewById(R.id.save);
+                Button btnCancel = (Button) dialog.findViewById(R.id.cancel);
+
+                final RadioButton privateButton = (RadioButton) dialog.findViewById(R.id.radio_private);
+
+                dialog.show();
+
+                btnCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                btnSave.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        String roomName = editText.getText().toString();
+
+                        String privacy = "public";
+
+                        if (privateButton.isChecked()) {
+                            privacy = "private";
+                        }
+
+                        addRoom(roomName, privacy);
+
+                        dialog.dismiss();
+                    }
+                });
             }
-        } else {
+        });
 
-            mGoogleApiClient = WelcomeActivity.mGoogleApiClient;
+        final FloatingActionButton logoutButton = (FloatingActionButton) findViewById(R.id.logout_button);
 
-            setContentView(R.layout.lobby_activity);
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-            getSupportActionBar().hide();
-
-            final String username = getIntent().getStringExtra("username");
-            System.out.println("Test Username = " + username);
-            drawRooms(CommunicationManager.getInstance().getUserName());
-
-            final FloatingActionButton createRoom = (FloatingActionButton) findViewById(R.id.createroom_button);
-
-            createRoom.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    final Dialog dialog = new Dialog(LobbyActivity.this);
-
-                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-                    dialog.setContentView(R.layout.createroom_dialog);
-
-                    final EditText editText = (EditText) dialog.findViewById(R.id.editText);
-                    Button btnSave = (Button) dialog.findViewById(R.id.save);
-                    Button btnCancel = (Button) dialog.findViewById(R.id.cancel);
-
-                    final RadioButton privateButton = (RadioButton) dialog.findViewById(R.id.radio_private);
-
-                    dialog.show();
-
-                    btnCancel.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            dialog.dismiss();
-                        }
-                    });
-
-                    btnSave.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-
-                            String roomName = editText.getText().toString();
-
-                            String privacy = "public";
-
-                            if (privateButton.isChecked()) {
-                                privacy = "private";
-                            }
-
-                            addRoom(roomName, privacy);
-
-                            dialog.dismiss();
-                        }
-                    });
-                }
-            });
-
-            final FloatingActionButton logoutButton = (FloatingActionButton) findViewById(R.id.logout_button);
-
-            logoutButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    try {
-                        if (signedWithGoogle()) {
-                            googleSignOut();
-                        }
-
-                        if (SignUpActivity.signedWithFacebook()) {
-                            SignUpActivity.facebookSignOut();
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                try {
+                    if (signedWithGoogle()) {
+                        googleSignOut();
                     }
 
-                    Intent intent = new Intent(LobbyActivity.this, WelcomeActivity.class);
-
-                    startActivity(intent);
+                    if (SignUpActivity.signedWithFacebook()) {
+                        SignUpActivity.facebookSignOut();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            });
-        }
+
+                Intent intent = new Intent(LobbyActivity.this, WelcomeActivity.class);
+
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -179,7 +171,7 @@ public class LobbyActivity extends ICommunicatorActivity implements
 
     private void addRoom(String roomName, String privacy) {
         String url ="http://amimelia-001-site1.itempurl.com/api/Gamelobby/CreateRoom?userName="
-                + getIntent().getStringExtra("username") + "&roomName="
+                + CommunicationManager.getInstance().getUserName() + "&roomName="
                 + roomName + "&roomAccessibility=" + privacy;
 
         final com.android.volley.RequestQueue queue = Volley.newRequestQueue(this);

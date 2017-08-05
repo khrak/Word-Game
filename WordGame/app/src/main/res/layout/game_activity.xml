@@ -114,7 +114,8 @@
 
     <LinearLayout
         android:id="@+id/buttons_layout"
-        android:padding="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:orientation="horizontal"
         android:layout_below="@id/board_to_fill"
         android:layout_width="match_parent"
@@ -126,7 +127,7 @@
             android:layout_height="match_parent">
 
             <Button
-                android:id="@+id/clear_text_button"
+                android:id="@+id/submit_word_button"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -135,7 +136,8 @@
                 android:layout_centerInParent="true"
                 android:text="SUBMIT"
                 android:textColor="#C0FFFFFF"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:onClick="submitWord"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -176,7 +178,7 @@
             custom:donut_inner_bottom_text_color="#DCA32B"
             custom:donut_text_color="#DCA32B"
             custom:donut_finished_color="#DCA32B"
-            custom:donut_progress="90"/>
+            custom:donut_progress="0"/>
 
         <RelativeLayout
             android:layout_marginLeft="10dp"
@@ -185,7 +187,7 @@
             android:layout_height="match_parent">
 
             <Button
-                android:id="@+id/submit_word_button"
+                android:id="@+id/clear_text_button"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -194,7 +196,8 @@
                 android:layout_centerInParent="true"
                 android:text="CLEAR"
                 android:textColor="#C0FFFFFF"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:onClick="clearClicked"/>
         </RelativeLayout>
 
     </LinearLayout>
@@ -203,9 +206,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/buttons_layout"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="2dp"
         android:background="@drawable/button"
-        android:layout_marginBottom="4dp">
+        android:layout_marginBottom="2dp">
 
         <GridView xmlns:android="http://schemas.android.com/apk/res/android"
             android:padding="10dp"

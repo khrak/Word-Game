@@ -3,6 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#DCA32B"
+    android:paddingTop="5dp"
+    android:id="@+id/gridview_item"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -11,12 +13,14 @@
         android:layout_height="match_parent">
 
         <Button
+            android:paddingTop="5dp"
             android:layout_centerInParent="true"
             android:id="@+id/letter_view"
             android:layout_width="45dp"
             android:layout_height="wrap_content"
             android:text="ა"
             android:textSize="20dp"
+            android:background="@android:drawable/btn_default"
             android:onClick="symbolClicked"/>
 
     </RelativeLayout>

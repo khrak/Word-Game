@@ -7,4 +7,9 @@ package com.example.khrak.wordgame.Game;
 public class Card {
     public String symbol;
     public int score;
+
+    public Card(String symbol, int score) {
+        this.symbol = symbol;
+        this.score = score;
+    }
 }

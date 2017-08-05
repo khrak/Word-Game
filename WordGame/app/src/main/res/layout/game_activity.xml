@@ -5,89 +5,286 @@
     android:background="@color/colorPrimary">
 
     <LinearLayout
+        android:id="@+id/players_layout"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:orientation="horizontal"
-        android:padding="5dp">
-        <Button
-            android:layout_width="40dp"
-            android:layout_weight="1"
-            android:layout_height="50dp"
-            android:background="@drawable/card_view"
-            android:layout_marginTop="10dp"
-            android:textSize="30sp"/>
+        android:layout_alignParentTop="true">
 
-        <Button
-            android:layout_width="40dp"
-            android:layout_marginLeft="5dp"
+        <RelativeLayout
             android:layout_weight="1"
-            android:layout_height="50dp"
-            android:background="@drawable/card_view"
-            android:layout_marginTop="10dp"
-            android:textSize="30sp"/>
-        <Button
-            android:layout_width="40dp"
-            android:layout_marginLeft="5dp"
-            android:layout_weight="1"
-            android:layout_height="50dp"
-            android:background="@drawable/card_view"
-            android:layout_marginTop="10dp"
-            android:textSize="30sp"/>
-        <Button
-            android:layout_width="40dp"
-            android:layout_marginLeft="5dp"
-            android:layout_weight="1"
-            android:layout_height="50dp"
-            android:background="@drawable/card_view"
-            android:layout_marginTop="10dp"
-            android:textSize="30sp"/>
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        <Button
-            android:layout_width="40dp"
-            android:layout_marginLeft="5dp"
-            android:layout_weight="1"
-            android:layout_height="50dp"
-            android:background="@drawable/card_view"
-            android:layout_marginTop="10dp"
-            android:textSize="30sp"/>
+            <TextView
+                android:layout_centerHorizontal="true"
+                android:id="@+id/money1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="120GEL"
+                android:textSize="16sp"
+                android:textColor="#DCA32B"/>
 
-        <Button
-            android:layout_width="40dp"
-            android:layout_marginLeft="5dp"
-            android:layout_weight="1"
-            android:layout_height="50dp"
-            android:background="@drawable/card_view"
-            android:layout_marginTop="10dp"
-            android:textSize="30sp"/>
-        <Button
-            android:layout_width="40dp"
-            android:layout_marginLeft="5dp"
-            android:layout_weight="1"
-            android:layout_height="50dp"
-            android:background="@drawable/card_view"
-            android:layout_marginTop="10dp"
-            android:textSize="30sp"/>
-        <Button
-            android:layout_width="40dp"
-            android:layout_marginLeft="5dp"
-            android:layout_weight="1"
-            android:layout_height="50dp"
-            android:background="@drawable/card_view"
-            android:layout_marginTop="10dp"
-            android:textSize="30sp"/>
-        <Button
-            android:layout_width="40dp"
-            android:layout_marginLeft="5dp"
-            android:layout_weight="1"
-            android:layout_height="50dp"
-            android:background="@drawable/card_view"
-            android:layout_marginTop="10dp"
-            android:textSize="30sp"/>
+            <ImageView
+                android:layout_marginTop="5dp"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/profile1"
+                android:layout_below="@id/money1"
+                android:layout_centerInParent="true"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/avatar_icon1"/>
+
+            <TextView
+                android:layout_marginTop="5dp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/profile1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Khrak"
+                android:textSize="16sp"
+                android:textColor="#DCA32B"/>
 
 
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_weight="1"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_centerHorizontal="true"
+                android:id="@+id/money2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="120GEL"
+                android:textSize="16sp"
+                android:textColor="#DCA32B"/>
+
+            <ImageView
+                android:layout_marginTop="5dp"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/profile2"
+                android:layout_below="@id/money2"
+                android:layout_centerInParent="true"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/avatar_icon1"/>
+
+            <TextView
+                android:layout_marginTop="5dp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/profile2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Khrak"
+                android:textSize="16sp"
+                android:textColor="#DCA32B"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_weight="1"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_centerHorizontal="true"
+                android:id="@+id/money3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="120GEL"
+                android:textSize="16sp"
+                android:textColor="#DCA32B"/>
+
+            <ImageView
+                android:layout_marginTop="5dp"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/profile3"
+                android:layout_below="@id/money3"
+                android:layout_centerInParent="true"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/avatar_icon1"/>
+
+            <TextView
+                android:layout_marginTop="5dp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/profile3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Khrak"
+                android:textSize="16sp"
+                android:textColor="#DCA32B"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_weight="1"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_centerHorizontal="true"
+                android:id="@+id/money4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="120GEL"
+                android:textSize="16sp"
+                android:textColor="#DCA32B"/>
+
+            <ImageView
+                android:layout_marginTop="5dp"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/profile4"
+                android:layout_below="@id/money4"
+                android:layout_centerInParent="true"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/avatar_icon1"/>
+
+            <TextView
+                android:layout_marginTop="5dp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/profile4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Khrak"
+                android:textSize="16sp"
+                android:textColor="#DCA32B"/>
+
+        </RelativeLayout>
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/board_to_fill"
+        android:layout_below="@id/players_layout"
+        android:layout_marginTop="60dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <Button
+            android:layout_width="40dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:background="@drawable/card_view"
+            android:layout_marginTop="10dp"
+            android:text="ა"
+            android:textSize="30sp"/>
+
+        <Button
+            android:layout_width="40dp"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:background="@drawable/card_view"
+            android:layout_marginTop="10dp"
+            android:text="ნ"
+            android:textSize="30sp"/>
+        <Button
+            android:layout_width="40dp"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:background="@drawable/card_view"
+            android:layout_marginTop="10dp"
+            android:text="ა"
+            android:textSize="30sp"/>
+        <Button
+            android:layout_width="40dp"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:background="@drawable/card_view"
+            android:layout_marginTop="10dp"
+            android:text="ს"
+            android:textSize="30sp"/>
+
+        <Button
+            android:layout_width="40dp"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:background="@drawable/card_view"
+            android:layout_marginTop="10dp"
+            android:text="ტ"
+            android:textSize="30sp"/>
+
+        <Button
+            android:layout_width="40dp"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:background="@drawable/card_view"
+            android:layout_marginTop="10dp"
+            android:text="ა"
+            android:textSize="30sp"/>
+        <Button
+            android:layout_width="40dp"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:background="@drawable/card_view"
+            android:layout_marginTop="10dp"
+            android:text="ს"
+            android:textSize="30sp"/>
+        <Button
+            android:layout_width="40dp"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:background="@drawable/card_view"
+            android:layout_marginTop="10dp"
+            android:text="ი"
+            android:textSize="30sp"/>
+        <Button
+            android:layout_width="40dp"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:background="@drawable/card_view"
+            android:layout_marginTop="10dp"
+            android:text="ა"
+            android:textSize="30sp"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/board_to_fill"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/button"
+        android:layout_marginBottom="20dp">
+
+        <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:padding="15dp"
+            android:background="@color/colorPrimary"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="70dp"
+            android:layout_marginRight="70dp"
+            android:id="@+id/keyboard_gridview"
+            android:numColumns="3"
+            android:verticalSpacing="5dp"
+            android:horizontalSpacing="15dp"
+            android:gravity="center"
+            android:stretchMode="columnWidth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
 
 </RelativeLayout>

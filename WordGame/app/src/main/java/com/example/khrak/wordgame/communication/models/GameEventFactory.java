@@ -14,6 +14,8 @@ public class GameEventFactory {
     public static final String EVENT_GAME_START = "game.event.start";
 
     public static final String OFFLINE_EVENT_MOVE_FINISHED = "offline.game.move.finished.event";
+    public static final String OFFLINE_EVENT_BETTING_STARTED = "offline.game.betting.started";
+    public static final String OFFLINE_EVENT_BETTING_FINISHED = "offline.game.move.betting.finished";
     public static final String EVENT_GAME_ROUND_FINISH = "game.event.word.finish";
 
     public static GameEvent getGameEvent(EventResponse responce){

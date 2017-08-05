@@ -10,7 +10,7 @@ import com.google.gson.Gson;
  */
 
 public class InGameEvent extends GameEvent<GameModel> {
-
+    public Object eventExtraData;
     public InGameEvent(EventResponse eventResponse){
         super(eventResponse);
         eventData = new GameModel();

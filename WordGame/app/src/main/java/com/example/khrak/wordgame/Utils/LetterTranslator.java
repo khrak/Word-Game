@@ -43,4 +43,12 @@ public class LetterTranslator {
 
         return '*';
     }
+
+    public static String convertStringToEnglish(String strToConvert){
+        String result = "";
+        for (int i = 0; i < strToConvert.length(); i++){
+            result += translate(strToConvert.charAt(i));
+        }
+        return result;
+    }
 }

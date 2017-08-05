@@ -11,4 +11,5 @@ public class Player {
     public int money;
     public int points;
     public Card[] cards;
+    public String guessedWord;
 }

@@ -15,6 +15,10 @@ public class GameEvent<T> {
         eventKey = eventResponse.eventKey;
     }
 
+    public GameEvent(){
+
+    }
+
     public T getEventData() {
         return eventData;
     }

@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 
-import com.example.khrak.wordgame.AppMain;
-
 /**
  * Created by melia on 8/3/2017.
  */

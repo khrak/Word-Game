@@ -1,7 +1,6 @@
 package com.example.khrak.wordgame.communication;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -9,7 +8,6 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.util.Log;
 
-import com.example.khrak.wordgame.Activities.SignUpActivity;
 import com.example.khrak.wordgame.AppMain;
 import com.example.khrak.wordgame.communication.models.EventResponse;
 import com.example.khrak.wordgame.communication.models.GameEvent;

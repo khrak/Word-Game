@@ -2,10 +2,9 @@ package com.example.khrak.wordgame.Activities;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -13,7 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
-import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -62,10 +60,11 @@ public class LobbyActivity extends ICommunicatorActivity implements
 
         getSupportActionBar().hide();
 
-	final String username = CommunicationManager.getInstance().getUserName();        
-        System.out.println("Test Username = " + username);
+	final String username = CommunicationManager.getInstance().getUserName();
         
-	drawRooms(CommunicationManager.getInstance().getUserName());
+System.out.println("Test Username = " + username);
+
+        drawRooms(CommunicationManager.getInstance().getUserName());
 
         final FloatingActionButton createRoom = (FloatingActionButton) findViewById(R.id.createroom_button);
 
@@ -315,7 +314,9 @@ public class LobbyActivity extends ICommunicatorActivity implements
                             intent.putExtra("roomid", room.getId());
                             intent.putExtra("username", username);
 
-                            startActivity(intent);
+                            LobbyActivity.this.finish();
+
+                            startActivityForResult(intent, 1);
 
                         }
                     }, new Response.ErrorListener() {

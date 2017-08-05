@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.WindowManager;
 
 import com.example.khrak.wordgame.communication.CommunicationManager;
 import com.example.khrak.wordgame.communication.IGameEventsListener;
@@ -38,6 +39,7 @@ public abstract class ICommunicatorActivity extends AppCompatActivity implements
         networkStateReceiver.addListener(this);
         this.registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 
     private void bindCommunicationServer(){
@@ -48,7 +50,7 @@ public abstract class ICommunicatorActivity extends AppCompatActivity implements
         CommunicationManager.getInstance().addGameEventListener(this);
     }
 
-    private void unBindCommunicationService(){
+    public void unBindCommunicationService(){
         // Unbind from the service
         if (mBound) {
             unbindService(mConnection);

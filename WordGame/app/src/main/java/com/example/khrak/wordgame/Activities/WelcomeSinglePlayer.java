@@ -1,7 +1,7 @@
 package com.example.khrak.wordgame.Activities;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import com.example.khrak.wordgame.R;
 

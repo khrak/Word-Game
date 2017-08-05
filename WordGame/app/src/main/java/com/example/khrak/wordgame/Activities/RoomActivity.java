@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -20,10 +19,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.khrak.wordgame.Model.Room;
 import com.example.khrak.wordgame.R;
 import com.example.khrak.wordgame.communication.CommunicationManager;
-import com.example.khrak.wordgame.communication.IGameEventsListener;
 import com.example.khrak.wordgame.communication.models.GameEvent;
 import com.example.khrak.wordgame.communication.models.GameEventFactory;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
@@ -107,123 +104,113 @@ public class RoomActivity extends ICommunicatorActivity {
         System.out.println(url);
         final com.android.volley.RequestQueue queue = Volley.newRequestQueue(this);
 
-        StringRequest stringRequest = null;
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(final String response) {
+                        System.out.println(response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
 
-        try {
-            stringRequest = new StringRequest(Request.Method.GET, url,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(final String response) {
-                            System.out.println(response);
+                            String roomName = "";
+                            String ownerName = "";
 
-                            try {
-                                System.out.println("I'm here and I know it");
+                            if (jsonObject.has("OwnerUserName")) {
+                                ownerName = jsonObject.getString("OwnerUserName");
 
-                                JSONObject jsonObject = new JSONObject(response);
+                                TextView ownerView = (TextView) findViewById(R.id.owner_image_view);
 
-                                String roomName = "";
-                                String ownerName = "";
-
-                                if (jsonObject.has("OwnerUserName")) {
-                                    ownerName = jsonObject.getString("OwnerUserName");
-
-                                    TextView ownerView = (TextView) findViewById(R.id.owner_image_view);
-
-                                    ownerView.setText(ownerName);
-                                }
-
-                                final FloatingActionsMenu inviteButton = (FloatingActionsMenu) findViewById(R.id.invitefriends_button);
-
-                                if (!username.equals(ownerName)) {
-
-                                    inviteButton.setVisibility(View.GONE);
-
-                                } else {
-                                    Button waitingButton = (Button) findViewById(R.id.waiting_button);
-
-                                    waitingButton.setText("START GAME");
-
-                                    waitingButton.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            System.out.println("All right bitches!! Here we goo!!!");
-                                        }
-                                    });
-
-                                    inviteButton.setOnFloatingActionsMenuUpdateListener(new FloatingActionsMenu.OnFloatingActionsMenuUpdateListener() {
-                                        @Override
-                                        public void onMenuExpanded() {
-                                            try {
-                                                showInvitationDialog();
-                                            } catch (Exception e) {
-                                                e.printStackTrace();
-                                            }
-                                        }
-
-                                        @Override
-                                        public void onMenuCollapsed() {
-                                            System.out.println("Collapsed");
-                                        }
-                                    });
-                                }
-
-                                if (jsonObject.has("RoomName")) {
-                                    roomName = jsonObject.getString("RoomName");
-
-                                    TextView roomNameView = (TextView) findViewById(R.id.room_title);
-
-                                    roomNameView.setText(roomName);
-                                }
-
-                                ImageView imageView1 = (ImageView) findViewById(R.id.profile_image1);
-                                ImageView imageView2 = (ImageView) findViewById(R.id.profile_image2);
-                                ImageView imageView3 = (ImageView) findViewById(R.id.profile_image3);
-                                ImageView imageView4 = (ImageView) findViewById(R.id.profile_image4);
-                                ImageView imageView5 = (ImageView) findViewById(R.id.profile_image5);
-
-                                TextView nameView1 = (TextView) findViewById(R.id.profile_name1);
-                                TextView nameView2 = (TextView) findViewById(R.id.profile_name2);
-                                TextView nameView3 = (TextView) findViewById(R.id.profile_name3);
-                                TextView nameView4 = (TextView) findViewById(R.id.profile_name4);
-                                TextView nameView5 = (TextView) findViewById(R.id.profile_name5);
-
-                                if (jsonObject.has("MemberUsers")) {
-                                    JSONArray array = jsonObject.getJSONArray("MemberUsers");
-
-                                    updateViews(ownerName, imageView1, nameView1, array.getJSONObject(0));
-
-                                    if (array.length() > 1) {
-                                        updateViews(ownerName, imageView2, nameView2, array.getJSONObject(1));
-                                    }
-
-                                    if (array.length() > 2) {
-                                        updateViews(ownerName, imageView3, nameView3, array.getJSONObject(2));
-                                    }
-
-                                    if (array.length() > 3) {
-                                        updateViews(ownerName, imageView4, nameView4, array.getJSONObject(3));
-                                    }
-
-                                    if (array.length() > 4) {
-                                        updateViews(ownerName, imageView5, nameView5, array.getJSONObject(4));
-                                    }
-                                }
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                                ownerView.setText(ownerName);
                             }
-                        }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
 
-                    System.out.println("That didn't work!" + error);
-                }
-            });
-            // Request a string response from the provided URL.
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+                            final FloatingActionsMenu inviteButton = (FloatingActionsMenu) findViewById(R.id.invitefriends_button);
+
+                            if (!username.equals(ownerName)) {
+
+                                inviteButton.setVisibility(View.GONE);
+
+                            } else {
+                                Button waitingButton = (Button) findViewById(R.id.waiting_button);
+
+                                waitingButton.setText("START GAME");
+
+                                waitingButton.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        System.out.println("All right bitches!! Here we goo!!!");
+                                    }
+                                });
+
+                                inviteButton.setOnFloatingActionsMenuUpdateListener(new FloatingActionsMenu.OnFloatingActionsMenuUpdateListener() {
+                                    @Override
+                                    public void onMenuExpanded() {
+                                        try {
+                                            showInvitationDialog();
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onMenuCollapsed() {
+                                        System.out.println("Collapsed");
+                                    }
+                                });
+                            }
+
+                            if (jsonObject.has("RoomName")) {
+                                roomName = jsonObject.getString("RoomName");
+
+                                TextView roomNameView = (TextView) findViewById(R.id.room_title);
+
+                                roomNameView.setText(roomName);
+                            }
+
+                            ImageView imageView1 = (ImageView) findViewById(R.id.profile_image1);
+                            ImageView imageView2 = (ImageView) findViewById(R.id.profile_image2);
+                            ImageView imageView3 = (ImageView) findViewById(R.id.profile_image3);
+                            ImageView imageView4 = (ImageView) findViewById(R.id.profile_image4);
+                            ImageView imageView5 = (ImageView) findViewById(R.id.profile_image5);
+
+                            TextView nameView1 = (TextView) findViewById(R.id.profile_name1);
+                            TextView nameView2 = (TextView) findViewById(R.id.profile_name2);
+                            TextView nameView3 = (TextView) findViewById(R.id.profile_name3);
+                            TextView nameView4 = (TextView) findViewById(R.id.profile_name4);
+                            TextView nameView5 = (TextView) findViewById(R.id.profile_name5);
+
+                            if (jsonObject.has("MemberUsers")) {
+                                JSONArray array = jsonObject.getJSONArray("MemberUsers");
+
+                                updateViews(ownerName, imageView1, nameView1, array.getJSONObject(0));
+
+                                if (array.length() > 1) {
+                                    updateViews(ownerName, imageView2, nameView2, array.getJSONObject(1));
+                                }
+
+                                if (array.length() > 2) {
+                                    updateViews(ownerName, imageView3, nameView3, array.getJSONObject(2));
+                                }
+
+                                if (array.length() > 3) {
+                                    updateViews(ownerName, imageView4, nameView4, array.getJSONObject(3));
+                                }
+
+                                if (array.length() > 4) {
+                                    updateViews(ownerName, imageView5, nameView5, array.getJSONObject(4));
+                                }
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println("That didn't work!" + error);
+            }
+        });
 
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
@@ -450,13 +437,7 @@ public class RoomActivity extends ICommunicatorActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(final String response) {
-                        try {
-                            Intent intent = new Intent(RoomActivity.this, LobbyActivity.class);
-                            intent.putExtra("username", getIntent().getStringExtra("username"));
-                            startActivity(intent);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                        System.out.println(response);
                     }
                 }, new Response.ErrorListener() {
             @Override

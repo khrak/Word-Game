@@ -43,6 +43,7 @@ public class OfflineGameEventProcessor extends AbstractGameEventsProcessor {
         youPlayer.wordGameUser = generateRandomWordGameUser("You");
         computerPlayer.guessedWord = "";
 
+        mGameModel.players = new ArrayList<>();
         mGameModel.players.add(youPlayer);
         mGameModel.players.add(computerPlayer);
 

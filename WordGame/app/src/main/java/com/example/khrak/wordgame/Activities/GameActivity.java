@@ -2,6 +2,7 @@ package com.example.khrak.wordgame.Activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -48,7 +49,7 @@ public class GameActivity extends AppCompatActivity implements IWordGameListener
     }
 
     private void createGame(){
-        mGame = new WordGame(0, this, false);
+        mGame = new WordGame(0, this, true);
         GameEvent startGameEvent = new InGameEvent(GameEventFactory.EVENT_GAME_START);
         mGame.sendGameEvent(startGameEvent);
     }
@@ -65,6 +66,6 @@ public class GameActivity extends AppCompatActivity implements IWordGameListener
 
     @Override
     public void drawGame(GameModel mGameModel) {
-
+        System.out.println("Draw Game Called" +  mGameModel.roundNumber);
     }
 }

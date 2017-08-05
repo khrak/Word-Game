@@ -169,7 +169,7 @@
     <LinearLayout
         android:id="@+id/board_to_fill"
         android:layout_below="@id/players_layout"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -261,11 +261,24 @@
 
     </LinearLayout>
 
+    <Button
+        android:id="@+id/clear_text_button"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/board_to_fill"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/button"
+        android:elevation="20dp"
+        android:text="CLEAR"
+        android:textColor="#C0FFFFFF"
+        android:textStyle="bold"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/board_to_fill"
-        android:layout_marginTop="30dp"
+        android:layout_below="@id/clear_text_button"
+        android:layout_marginTop="10dp"
         android:background="@drawable/button"
         android:layout_marginBottom="20dp">
 

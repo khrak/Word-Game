@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_weight="1"
+    android:layout_centerInParent="true"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_centerHorizontal="true"
+            android:id="@+id/money1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="120GEL"
+            android:textSize="16sp"
+            android:textColor="#DCA32B"/>
+
+        <ImageView
+            android:layout_marginTop="5dp"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/profile1"
+            android:layout_below="@id/money1"
+            android:layout_centerInParent="true"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/avatar_icon1"/>
+
+        <TextView
+            android:id="@+id/name_view"
+            android:layout_marginTop="5dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/profile1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Khrak"
+            android:textSize="16sp"
+            android:textColor="#DCA32B"/>
+    </RelativeLayout>
+</LinearLayout>

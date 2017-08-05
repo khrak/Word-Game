@@ -6,164 +6,14 @@
     android:background="@color/colorPrimary">
 
     <LinearLayout
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
         android:id="@+id/players_layout"
-        android:layout_marginTop="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true">
-
-        <RelativeLayout
-            android:layout_weight="1"
-            android:layout_centerInParent="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_centerHorizontal="true"
-                android:id="@+id/money1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="120GEL"
-                android:textSize="16sp"
-                android:textColor="#DCA32B"/>
-
-            <ImageView
-                android:layout_marginTop="5dp"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/profile1"
-                android:layout_below="@id/money1"
-                android:layout_centerInParent="true"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/avatar_icon1"/>
-
-            <TextView
-                android:layout_marginTop="5dp"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/profile1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Khrak"
-                android:textSize="16sp"
-                android:textColor="#DCA32B"/>
-
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_weight="1"
-            android:layout_centerInParent="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_centerHorizontal="true"
-                android:id="@+id/money2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="120GEL"
-                android:textSize="16sp"
-                android:textColor="#DCA32B"/>
-
-            <ImageView
-                android:layout_marginTop="5dp"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/profile2"
-                android:layout_below="@id/money2"
-                android:layout_centerInParent="true"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/avatar_icon1"/>
-
-            <TextView
-                android:layout_marginTop="5dp"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/profile2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Khrak"
-                android:textSize="16sp"
-                android:textColor="#DCA32B"/>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_weight="1"
-            android:layout_centerInParent="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_centerHorizontal="true"
-                android:id="@+id/money3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="120GEL"
-                android:textSize="16sp"
-                android:textColor="#DCA32B"/>
-
-            <ImageView
-                android:layout_marginTop="5dp"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/profile3"
-                android:layout_below="@id/money3"
-                android:layout_centerInParent="true"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/avatar_icon1"/>
-
-            <TextView
-                android:layout_marginTop="5dp"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/profile3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Khrak"
-                android:textSize="16sp"
-                android:textColor="#DCA32B"/>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_weight="1"
-            android:layout_centerInParent="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_centerHorizontal="true"
-                android:id="@+id/money4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="120GEL"
-                android:textSize="16sp"
-                android:textColor="#DCA32B"/>
-
-            <ImageView
-                android:layout_marginTop="5dp"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/profile4"
-                android:layout_below="@id/money4"
-                android:layout_centerInParent="true"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/avatar_icon1"/>
-
-            <TextView
-                android:layout_marginTop="5dp"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/profile4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Khrak"
-                android:textSize="16sp"
-                android:textColor="#DCA32B"/>
-
-        </RelativeLayout>
 
     </LinearLayout>
 
@@ -283,9 +133,37 @@
                 android:layout_marginTop="15dp"
                 android:background="@drawable/button"
                 android:layout_centerInParent="true"
-                android:text="CLEAR"
+                android:text="SUBMIT"
                 android:textColor="#C0FFFFFF"
                 android:textStyle="bold"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/my_money_view"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/myImageView"
+                android:layout_marginLeft="10dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="#DCA32B"/>
+
+            <TextView
+                android:id="@+id/myImageViewText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/myImageView"
+                android:layout_alignTop="@+id/myImageView"
+                android:layout_alignRight="@+id/myImageView"
+                android:layout_alignBottom="@+id/myImageView"
+                android:layout_margin="1dp"
+                android:gravity="center"
+                android:textSize="25sp"
+                android:text="85"
+                android:textColor="#C0FFFFFF" />
         </RelativeLayout>
 
         <com.github.lzyzsd.circleprogress.DonutProgress
@@ -298,7 +176,7 @@
             custom:donut_inner_bottom_text_color="#DCA32B"
             custom:donut_text_color="#DCA32B"
             custom:donut_finished_color="#DCA32B"
-            custom:donut_progress="30"/>
+            custom:donut_progress="90"/>
 
         <RelativeLayout
             android:layout_marginLeft="10dp"

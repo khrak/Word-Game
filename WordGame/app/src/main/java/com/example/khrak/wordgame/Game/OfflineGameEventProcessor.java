@@ -117,13 +117,46 @@ public class OfflineGameEventProcessor extends AbstractGameEventsProcessor {
             InGameEvent inGameEvent = (InGameEvent) eventToProcess;
             mGameModel.players.get(youPlayerId).bet = (Integer) inGameEvent.eventExtraData;
 
+            Player winnerPlayer = mGameModel.players.get(youPlayerId);
+            Player loserPlayer = mGameModel.players.get(computerPlayerId);
+            if (winnerPlayer.points < loserPlayer.points ||
+                    ((winnerPlayer.points == loserPlayer.points) && (winnerPlayer.bet < loserPlayer.bet))){
+                Player tmp = winnerPlayer;
+                winnerPlayer = loserPlayer;
+                loserPlayer = tmp;
+            }
+            winnerPlayer.money += loserPlayer.bet;
+            loserPlayer.money -= loserPlayer.bet;
             refreshGameModel();
         }
 
         if (eventToProcess.IsSameEvent(GameEventFactory.EVENT_GAME_ROUND_FINISH)){
-            mGameModel.state = GameStates.ROUND_FINISHED;
-            refreshGameModel();
+            initNextRoundGameModel();
+            if (checkPlayersBadAmount(mGameModel.players.get(0)) || checkPlayersBadAmount(mGameModel.players.get(1))){
+                mGameModel.state = GameStates.GAME_OVER;
+                refreshGameModel();
+            }else{
+                processGameEvent(new InGameEvent(GameEventFactory.EVENT_GAME_START));
+            }
+            //
         }
+    }
+
+    private boolean checkPlayersBadAmount(Player player){
+        if (player.money < getRoundMinAmount())
+            return true;
+        return false;
+    }
+
+    private void initNextRoundGameModel(){
+        GameModel prevGame = mGameModel;
+        initComputerGameModel();
+        mGameModel.roundNumber = prevGame.roundNumber + 1;
+        mGameModel.players.get(computerPlayerId).money = prevGame.players.get(computerPlayerId).money;
+        mGameModel.players.get(computerPlayerId).money = prevGame.players.get(computerPlayerId).money;
+
+        mGameModel.players.get(computerPlayerId).wordGameUser.IconId = prevGame.players.get(computerPlayerId).wordGameUser.IconId;
+        mGameModel.players.get(computerPlayerId).wordGameUser.IconId = prevGame.players.get(computerPlayerId).wordGameUser.IconId;
     }
 
     private int getRoundMinAmount(){

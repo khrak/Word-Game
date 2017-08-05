@@ -56,7 +56,7 @@ public class WelcomeActivity extends AppCompatActivity implements
 
     public void aboutClicked(View view) {
 
-        Intent intent = new Intent(this, AboutActivity.class);
+        Intent intent = new Intent(this, TestActivity.class);
 
         startActivity(intent);
     }

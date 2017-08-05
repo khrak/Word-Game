@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <EditText
+        android:id="@+id/betting_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#DCA32B"
+        android:hint="Type your bet here"
+        android:inputType="number"
+        android:background="@android:color/transparent"
+        android:textColorHint="#DCA32B"
+        android:textCursorDrawable="@null"/>
+
+    <Button
+        android:id="@+id/submit_bet_button"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/betting_edittext"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button"
+        android:elevation="20dp"
+        android:text="Bet"
+        android:textColor="#C0FFFFFF"
+        android:textStyle="bold"/>
+
+</RelativeLayout>

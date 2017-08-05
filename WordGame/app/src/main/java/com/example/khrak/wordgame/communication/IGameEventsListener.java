@@ -1,5 +1,6 @@
 package com.example.khrak.wordgame.communication;
 
+import com.example.khrak.wordgame.Game.GameModel;
 import com.example.khrak.wordgame.communication.models.GameEvent;
 
 /**

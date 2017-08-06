@@ -19,14 +19,25 @@ public class GameEventFactory {
     public static final String OFFLINE_EVENT_BETTING_FINISHED = "offline.game.move.betting.finished";
     public static final String EVENT_GAME_ROUND_FINISH = "game.event.word.finish";
 
+    //Live game.created.eventgame.created.event
+    public static final String LIVE_EVENT_CREATED = "game.created.event";
+
     public static GameEvent getGameEvent(EventResponse responce){
+        if (responce.eventKey.equals(LIVE_EVENT_CREATED)){
+            return new LiveGameCreatedEvent(responce);
+        }
+
+        if (responce.eventKey.equals(EVENT_KET_UPDATE_ROOM)){
+            return new UpdateRoomEvent(responce);
+        }
+
+        if (responce.eventKey.equals(EVENT_KET_INVITATION_RECEVED)){
+            return new InvitationReceivedEvent(responce);
+        }
+
         switch (responce.eventKey){
             case EVENT_KET_TEST:
                 return new TestGameEvent(responce);
-            case EVENT_KET_UPDATE_ROOM:
-                return new UpdateRoomEvent(responce);
-            case EVENT_KET_INVITATION_RECEVED:
-                return new InvitationReceivedEvent(responce);
             case EVENT_LIVE_GAME_EVENT:
                 return new LiveGameEvent(responce);
             default:

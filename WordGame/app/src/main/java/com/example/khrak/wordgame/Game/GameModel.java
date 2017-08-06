@@ -11,4 +11,5 @@ public class GameModel {
     public List<Card> cards;
     public int roundNumber;
     public int state;
+    public int secondsCount;
 }

@@ -21,6 +21,8 @@ public class GameEventFactory {
 
     //Live game.created.eventgame.created.event
     public static final String LIVE_EVENT_CREATED = "game.created.event";
+    public static final String LIVE_GAME_EVENT_WON = "game.live.event.game.won";
+    public static final String LIVE_GAME_EVENT_LOST = "game.live.event.game.lost";
 
     public static GameEvent getGameEvent(EventResponse responce){
         if (responce.eventKey.equals(LIVE_EVENT_CREATED)){
@@ -40,6 +42,10 @@ public class GameEventFactory {
                 return new TestGameEvent(responce);
             case EVENT_LIVE_GAME_EVENT:
                 return new LiveGameEvent(responce);
+            case LIVE_GAME_EVENT_WON:
+                return new GameFinisherEvent(responce);
+            case LIVE_GAME_EVENT_LOST:
+                return new GameFinisherEvent(responce);
             default:
                 return null;
         }

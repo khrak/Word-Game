@@ -375,7 +375,13 @@ public class LiveGameActivity extends ICommunicatorActivity implements IWordGame
 
                 f *= 2.5;
 
-                progress.setProgress((int)f);
+                final float finalF = f;
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        progress.setProgress((int) finalF);
+                    }
+                });
 
                 value = 0;
 

@@ -77,11 +77,14 @@ public class GameActivity extends AppCompatActivity implements IWordGameListener
         list.add(new Card("ა", 5));
 
         gridView.setAdapter(new GridViewAdapter(this, list));
-        createGame();
+
+        int level = getIntent().getIntExtra("level", 0);
+
+        createGame(level);
     }
 
-    private void createGame() {
-        mGame = new WordGame(0, this, true);
+    private void createGame(int level) {
+        mGame = new WordGame(level, this, true);
         GameEvent startGameEvent = new InGameEvent(GameEventFactory.EVENT_GAME_START);
         mGame.sendGameEvent(startGameEvent);
     }

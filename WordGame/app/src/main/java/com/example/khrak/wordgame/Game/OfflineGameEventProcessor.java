@@ -272,4 +272,65 @@ public class OfflineGameEventProcessor extends AbstractGameEventsProcessor {
         }
     }
 
+    String bestWord = "";
+    int bestScore = 0;
+
+    private void checkWord(Card[] cards){
+
+        if (gameLevel == 0) {
+            twoLength(cards);
+        }
+        if (gameLevel == 1) {
+            twoLength(cards);
+            threelength(cards);
+        }
+
+        if (gameLevel == 2) {
+            twoLength(cards);
+            threelength(cards);
+//            fourlength(cards);
+        }
+    }
+
+    private void threelength(Card[] cards) {
+        for (int i = 0; i < cards.length; i++) {
+            for (int j = 0; j < cards.length; j++) {
+                for (int k = 0; k < cards.length; k++)
+                if (i != j) {
+                    String st = "" + cards[i].symbol + cards[j].symbol;
+                    int val = cards[i].score + cards[j].score;
+
+                    if (val > bestScore) {
+                        bestScore = val;
+                        bestWord = st;
+                    }
+                }
+            }
+        }
+    }
+
+    private void twoLength(Card[] cards) {
+        for (int i = 0; i < cards.length; i++) {
+            if (DatabaseWordHelper.wordExistsNotThreadSafe("" + cards[i].symbol)) {
+                if (bestScore < cards[i].score) {
+                    bestScore = cards[i].score;
+                    bestWord = "" + cards[i].symbol;
+                }
+            }
+        }
+
+        for (int i = 0; i < cards.length; i++) {
+            for (int j = 0; j < cards.length; j++) {
+                if (i != j) {
+                    String st = "" + cards[i].symbol + cards[j].symbol;
+                    int val = cards[i].score + cards[j].score;
+
+                    if (val > bestScore) {
+                        bestScore = val;
+                        bestWord = st;
+                    }
+                }
+            }
+        }
+    }
 }

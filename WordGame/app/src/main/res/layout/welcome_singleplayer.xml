@@ -39,7 +39,8 @@
                 android:elevation="20dp"
                 android:text="EASY"
                 android:textColor="#C0FFFFFF"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:onClick="easyClicked"/>
 
             <Button
                 android:id="@+id/about"
@@ -53,7 +54,8 @@
                 android:elevation="20dp"
                 android:text="MEDIUM"
                 android:textColor="#C0FFFFFF"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:onClick="mediumClicked"/>
 
             <Button
                 android:id="@+id/instr"
@@ -66,7 +68,8 @@
                 android:elevation="20dp"
                 android:text="HARD"
                 android:textColor="#C0FFFFFF"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:onClick="hardClicked"/>
 
         </RelativeLayout>
     </RelativeLayout>

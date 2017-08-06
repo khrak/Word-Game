@@ -371,6 +371,12 @@ public class LiveGameActivity extends ICommunicatorActivity implements IWordGame
 
                 final DonutProgress progress = (DonutProgress) findViewById(R.id.timeout_progress_view);
 
+                float f = mGameModel.secondsCount;
+
+                f *= 2.5;
+
+                progress.setProgress((int)f);
+
                 value = 0;
 
                 while (value < 100) {

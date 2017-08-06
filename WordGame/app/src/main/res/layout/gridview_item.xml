@@ -21,7 +21,7 @@
             android:text="ა"
             android:textSize="20dp"
             android:background="@android:drawable/btn_default"
-            android:onClick="symbolClicked"/>
+            />
 
     </RelativeLayout>
 

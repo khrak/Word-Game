@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="#DCA32B"
-        android:hint="Your score is 21"
+        android:hint="Your score is #"
         android:inputType="number"
         android:background="@android:color/transparent"
         android:textColorHint="#DCA32B"

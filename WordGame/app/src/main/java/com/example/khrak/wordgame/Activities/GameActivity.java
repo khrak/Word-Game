@@ -23,6 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.khrak.wordgame.Adapters.GridViewAdapter;
+import com.example.khrak.wordgame.Adapters.IGridButtonListener;
 import com.example.khrak.wordgame.Adapters.ScoreboardAdapter;
 import com.example.khrak.wordgame.Game.Card;
 import com.example.khrak.wordgame.Game.GameConstants;
@@ -45,7 +46,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadFactory;
 
-public class GameActivity extends AppCompatActivity implements IWordGameListener {
+public class GameActivity extends AppCompatActivity implements IWordGameListener,
+IGridButtonListener{
     WordGame mGame;
 
     private ArrayList<Button> clickedButtons = new ArrayList<>();
@@ -540,4 +542,9 @@ public class GameActivity extends AppCompatActivity implements IWordGameListener
             R.drawable.avatar_icon9,
             R.drawable.avatar_icon10
     };
+
+    @Override
+    public void gridButtonClicked(View view) {
+        symbolClicked(view);
+    }
 }

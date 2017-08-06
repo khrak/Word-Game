@@ -9,6 +9,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.khrak.wordgame.Activities.GameActivity;
 import com.example.khrak.wordgame.Game.Card;
 import com.example.khrak.wordgame.R;
 
@@ -56,6 +57,14 @@ public class GridViewAdapter extends BaseAdapter {
                 listItem = View.inflate(context, R.layout.gridview_item, null);
 
                 Button symbol = (Button) listItem.findViewById(R.id.letter_view);
+
+                symbol.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ((IGridButtonListener)context).gridButtonClicked(v);
+                    }
+                });
+
                 TextView score = (TextView) listItem.findViewById(R.id.symbol_score_view);
 
                 holder = new GridViewHolder();

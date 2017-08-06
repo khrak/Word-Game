@@ -117,7 +117,22 @@ public class GameActivity extends AppCompatActivity implements IWordGameListener
             mTimerThread = null;
         }
 
+        final DonutProgress progress = (DonutProgress) findViewById(R.id.timeout_progress_view);
+
+        progress.setProgress(0);
+
         sendPlayerChooseWordEvent(getSelectedCards());
+
+        for (int i = 0; i < clickedButtons.size(); i++) {
+            Button button = clickedButtons.get(i);
+
+            button.setBackgroundResource(android.R.drawable.btn_default);
+        }
+
+        clickedButtons.clear();
+
+        clearBoard();
+
         /*String result = "";
         int score = 0;
 
@@ -183,8 +198,6 @@ public class GameActivity extends AppCompatActivity implements IWordGameListener
     @Override
     public void drawGame(final GameModel mGameModel) {
 
-        System.out.println("Game Mode = " + mGameModel.state);
-
         if (mGameModel.state == GameStates.GAME_PENDING) {
             drawPendingGame(mGameModel);
         }
@@ -196,6 +209,62 @@ public class GameActivity extends AppCompatActivity implements IWordGameListener
         if (mGameModel.state == GameStates.GAME_BETTING_FINISHED) {
             drawFinish(mGameModel);
         }
+
+        if (mGameModel.state == GameStates.GAME_OVER) {
+            drawGameOver(mGameModel);
+        }
+    }
+
+    private void drawGameOver(final GameModel mGameModel) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                Player player1 = mGameModel.players.get(0);
+                Player player2 = mGameModel.players.get(1);
+
+                boolean iwon = player1.money > player2.money;
+
+                final Dialog dialog = new Dialog(GameActivity.this, android.R.style.Theme_Light_NoTitleBar_Fullscreen);
+
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+                dialog.setContentView(R.layout.gameover_dialog);
+
+                TextView textview = (TextView) dialog.findViewById(R.id.game_result_view);
+
+                if (iwon) {
+                    textview.setText("You won!");
+                } else {
+                    textview.setText("You'll win next time!");
+                }
+
+                dialog.show();
+
+                final Handler handler  = new Handler();
+                final Runnable runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        if (dialog.isShowing()) {
+                            dialog.dismiss();
+                        }
+                    }
+                };
+
+                dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        handler.removeCallbacks(runnable);
+
+                        Intent intent = new Intent(GameActivity.this, WelcomeActivity.class);
+
+                        startActivity(intent);
+                    }
+                });
+
+                handler.postDelayed(runnable, 3000);
+            }
+        });
     }
 
     private void drawFinish(final GameModel mGameModel) {
@@ -373,6 +442,8 @@ public class GameActivity extends AppCompatActivity implements IWordGameListener
                     });
                 }
 
+                progress.setProgress(0);
+
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -389,6 +460,8 @@ public class GameActivity extends AppCompatActivity implements IWordGameListener
             @Override
             public void run() {
                 LinearLayout playersLayout = (LinearLayout) findViewById(R.id.players_layout);
+
+                playersLayout.removeAllViews();
 
                 for (Player player : mGameModel.players) {
                     String username = player.wordGameUser.UserName;

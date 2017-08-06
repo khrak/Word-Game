@@ -75,8 +75,6 @@ public class ScoreboardAdapter extends BaseAdapter {
         try {
             if (item.winner) {
                 listItem.setBackgroundColor(Color.parseColor("#DCA32B"));
-            } else {
-                listItem.setBackgroundColor(Color.parseColor("#000000"));
             }
         } catch (Exception e) {
             e.printStackTrace();

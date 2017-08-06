@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.example.khrak.wordgame.Activities.RoomActivity;
+import com.example.khrak.wordgame.Activities.WelcomeActivity;
 import com.example.khrak.wordgame.Adapters.ScoreboardAdapter;
 import com.example.khrak.wordgame.Model.ScoreboardItem;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
@@ -35,17 +36,15 @@ public class TestActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.scoreboard_dialog);
 
-        final Dialog dialog = new Dialog(TestActivity.this);
+        final Dialog dialog = new Dialog(TestActivity.this, android.R.style.Theme_Light_NoTitleBar_Fullscreen);
 
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        dialog.setContentView(R.layout.round_dialog);
+        dialog.setContentView(R.layout.gameover_dialog);
 
         dialog.show();
 
-        // Hide after some seconds
         final Handler handler  = new Handler();
         final Runnable runnable = new Runnable() {
             @Override
@@ -60,10 +59,13 @@ public class TestActivity extends Activity {
             @Override
             public void onDismiss(DialogInterface dialog) {
                 handler.removeCallbacks(runnable);
+
+                Intent intent = new Intent(TestActivity.this, WelcomeActivity.class);
+
+                startActivity(intent);
             }
         });
 
         handler.postDelayed(runnable, 3000);
-
     }
 }

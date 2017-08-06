@@ -1,6 +1,7 @@
 package com.example.khrak.wordgame.Game;
 
 import com.example.khrak.wordgame.communication.models.GameEvent;
+import com.example.khrak.wordgame.communication.models.GameEventFactory;
 
 /**
  * Created by melia on 8/5/2017.
@@ -21,6 +22,10 @@ public class LiveGameEventProcessor extends AbstractGameEventsProcessor {
 
     @Override
     public void processGameEvent(GameEvent eventToProcess) {
-
+        if (eventToProcess.IsSameEvent(GameEventFactory.EVENT_LIVE_GAME_EVENT)){
+            GameModel model = (GameModel) eventToProcess.getEventData();
+            mGameModel = model;
+            gameModelUpdated();
+        }
     }
 }

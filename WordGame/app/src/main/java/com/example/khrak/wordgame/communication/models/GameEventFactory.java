@@ -7,6 +7,7 @@ import com.example.khrak.wordgame.communication.models.events.*;
  */
 
 public class GameEventFactory {
+    public static final String EVENT_LIVE_GAME_EVENT = "game.live.event";
     public static final String EVENT_KET_TEST = "game.event.test";
     public static final String EVENT_KET_UPDATE_ROOM = "game.event.room.changed";
     public static final String EVENT_KET_INVITATION_RECEVED = "game.event.invitation.receved";
@@ -26,6 +27,8 @@ public class GameEventFactory {
                 return new UpdateRoomEvent(responce);
             case EVENT_KET_INVITATION_RECEVED:
                 return new InvitationReceivedEvent(responce);
+            case EVENT_LIVE_GAME_EVENT:
+                return new LiveGameEvent(responce);
             default:
                 return null;
         }

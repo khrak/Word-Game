@@ -153,10 +153,10 @@ public class OfflineGameEventProcessor extends AbstractGameEventsProcessor {
         initComputerGameModel();
         mGameModel.roundNumber = prevGame.roundNumber + 1;
         mGameModel.players.get(computerPlayerId).money = prevGame.players.get(computerPlayerId).money;
-        mGameModel.players.get(computerPlayerId).money = prevGame.players.get(computerPlayerId).money;
+        mGameModel.players.get(youPlayerId).money = prevGame.players.get(youPlayerId).money;
 
         mGameModel.players.get(computerPlayerId).wordGameUser.IconId = prevGame.players.get(computerPlayerId).wordGameUser.IconId;
-        mGameModel.players.get(computerPlayerId).wordGameUser.IconId = prevGame.players.get(computerPlayerId).wordGameUser.IconId;
+        mGameModel.players.get(youPlayerId).wordGameUser.IconId = prevGame.players.get(youPlayerId).wordGameUser.IconId;
     }
 
     private int getRoundMinAmount(){

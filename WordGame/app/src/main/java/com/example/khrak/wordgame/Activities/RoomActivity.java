@@ -243,10 +243,10 @@ public class RoomActivity extends ICommunicatorActivity {
     }
 
     public void tansparent(int roomid) {
-       Intent intent = new Intent(RoomActivity.this, LiveGameActivity.class);
-       intent.putExtra("roomid", roomid);
-
-       startActivity(intent);
+        Intent intent = new Intent(RoomActivity.this, LiveGameActivity.class);
+        intent.putExtra("roomid", roomid);
+        this.finish();
+        startActivity(intent);
     }
 
     private void showInvitationDialog() {

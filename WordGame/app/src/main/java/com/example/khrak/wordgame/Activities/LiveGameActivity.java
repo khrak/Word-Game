@@ -40,6 +40,8 @@ public class LiveGameActivity extends ICommunicatorActivity implements IWordGame
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_activity);
 
+        getSupportActionBar().hide();
+
         int roomid = getIntent().getIntExtra("roomid", 0);
 
         createGame(roomid);

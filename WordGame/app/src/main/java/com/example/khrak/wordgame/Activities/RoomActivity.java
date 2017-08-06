@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -243,11 +244,10 @@ public class RoomActivity extends ICommunicatorActivity {
 
     public void tansparent(int roomid) {
 
-        Intent intent = new Intent(RoomActivity.this, LiveGameActivity.class);
+       Intent intent = new Intent(RoomActivity.this, LiveGameActivity.class);
+       intent.putExtra("roomid", roomid);
 
-        intent.putExtra("roomid", roomid);
-
-        startActivity(intent);
+       startActivity(intent);
     }
 
     private void showInvitationDialog() {
@@ -489,6 +489,13 @@ public class RoomActivity extends ICommunicatorActivity {
         WriteLogMessage("Event in Activity : " + event.eventKey);
         if (event.IsSameEvent(GameEventFactory.EVENT_KET_UPDATE_ROOM)){
             drawRoom(roomId, CommunicationManager.getInstance().getUserName());
+            return;
+        }
+
+        if (event.IsSameEvent(GameEventFactory.LIVE_EVENT_CREATED)){
+            Log.w("Final", "Opening Game Activity");
+            tansparent(Integer.parseInt((String)event.getEventData()));
+            return;
         }
     }
 

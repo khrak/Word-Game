@@ -404,6 +404,8 @@ public class GameActivity extends AppCompatActivity implements IWordGameListener
         mGame.sendGameEvent(event);
     }
 
+    private int value = 0;
+
     private void drawPendingGame(final GameModel mGameModel) {
 
         submitted = false;
@@ -414,7 +416,7 @@ public class GameActivity extends AppCompatActivity implements IWordGameListener
 
                 final DonutProgress progress = (DonutProgress) findViewById(R.id.timeout_progress_view);
 
-                int value = 0;
+                value = 0;
 
                 while (value < 100) {
 
@@ -442,11 +444,11 @@ public class GameActivity extends AppCompatActivity implements IWordGameListener
                     });
                 }
 
-                progress.setProgress(0);
-
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        progress.setProgress(0);
+
                         playerDontChooseWord();
                     }
                 });

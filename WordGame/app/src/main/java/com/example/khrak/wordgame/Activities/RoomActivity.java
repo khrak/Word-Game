@@ -138,7 +138,7 @@ public class RoomActivity extends ICommunicatorActivity {
                                 waitingButton.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        System.out.println("All right bitches!! Here we goo!!!");
+                                        startGameClicked();
                                     }
                                 });
 
@@ -209,6 +209,31 @@ public class RoomActivity extends ICommunicatorActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 System.out.println("That didn't work!" + error);
+            }
+        });
+
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest);
+    }
+
+    private void startGameClicked(){
+        final String url ="http://amimelia-001-site1.itempurl.com/api/game/CreateGame?userName="
+                + CommunicationManager.getInstance().getUserName() +"&roomId=" + roomId;
+        final com.android.volley.RequestQueue queue = Volley.newRequestQueue(RoomActivity.this);
+
+        System.out.println(url);
+
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(final String response) {
+                        System.out.println("Create Game result = " + response);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
             }
         });
 

@@ -80,8 +80,64 @@ public class LiveGameActivity extends ICommunicatorActivity implements IWordGame
         mGame = new WordGame(gameId, this, false);
     }
 
+    private void showGameOverDialog(String message, Intent intent) {
+
+        final Dialog dialog = new Dialog(LiveGameActivity.this);
+
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        dialog.setContentView(R.layout.gameover_dialog);
+
+        TextView textView = (TextView) dialog.findViewById(R.id.game_result_view);
+
+        textView.setText(message);
+
+        dialog.show();
+
+        // Hide after some seconds
+        final Handler handler  = new Handler();
+        final Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                if (dialog.isShowing()) {
+                    dialog.dismiss();
+                }
+            }
+        };
+
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+            }
+        });
+
+        handler.postDelayed(runnable, 3000);
+
+        startActivity(intent);
+    }
+
     @Override
     public void processGameEvent(GameEvent event) {
+        if (event.IsSameEvent(GameEventFactory.LIVE_GAME_EVENT_WON)) {
+
+            Intent intent = new Intent(this, LobbyActivity.class);
+
+            this.finish();
+
+            showGameOverDialog("You Won!", intent);
+
+            return;
+        }
+
+        if (event.IsSameEvent(GameEventFactory.LIVE_GAME_EVENT_LOST)) {
+            Intent intent = new Intent(this, LobbyActivity.class);
+
+            this.finish();
+
+            showGameOverDialog("You'll win next time!", intent);
+
+            return;
+        }
 
         mGame.sendGameEvent(event);
     }

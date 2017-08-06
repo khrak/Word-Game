@@ -43,7 +43,7 @@ public class LiveGameEventProcessor extends AbstractGameEventsProcessor {
                         Gson gson = new Gson();
                         GameModel eventData = gson.fromJson(response, GameModel.class);
                         LiveGameEventProcessor.this.mGameModel = eventData;
-                        refreshGameModel();
+                        gameModelUpdated();
                     }
                 }, new Response.ErrorListener() {
             @Override
